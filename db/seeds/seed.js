@@ -85,7 +85,6 @@ const seed = (data) => {
   // 2. insert data
   .then((response) => {
     console.log("inserted data into categories table");
-    console.log(response.rows);
     const insertIntoUsers = format (
       `INSERT INTO users
         (username,
@@ -106,7 +105,6 @@ const seed = (data) => {
   })
   .then((response) => {
     console.log("inserted data into users table");
-    console.log(response.rows);
     const insertIntoReviews = format (
       `INSERT INTO reviews
         (title,
@@ -137,7 +135,6 @@ const seed = (data) => {
   })
   .then((response) => {
     console.log("inserted data into reviews table");
-    console.log(response.rows);
     const insertIntoComments = format (
       `INSERT INTO comments
         (body,
@@ -163,11 +160,10 @@ const seed = (data) => {
   })
   .then((response) => {
     console.log("inserted data into comments table");
-    console.log(response.rows);
   })
   .catch((err) => {
     console.log(err);
   })
 };
 
-module.exports = seed;
+module.exports = { seed };
