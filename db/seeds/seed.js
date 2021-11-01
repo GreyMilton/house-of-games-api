@@ -1,4 +1,5 @@
 const db = require('../connection.js');
+const format = require('pg-format');
 
 const seed = (data) => {
   const { categoryData, commentData, reviewData, userData } = data;
@@ -13,26 +14,26 @@ const seed = (data) => {
     return db.query(`DROP TABLE IF EXISTS categories;`);
   })
   .then(() => {
-    const createTableStr = `
+    const createCategories = `
       CREATE TABLE categories (
         slug VARCHAR(40) PRIMARY KEY,
         description VARCHAR(500) NOT NULL
       );`;
-    return db.query(createTableStr);
+    return db.query(createCategories);
   })
   .then(() => {
     console.log("created categories table");
-    const createTableStr = `
+    const createUsers = `
       CREATE TABLE users (
         username VARCHAR(30) PRIMARY KEY,
         name VARCHAR(40),
         avatar_url VARCHAR(300)
       );`;
-    return db.query(createTableStr)
+    return db.query(createUsers)
   })
   .then(() => {
     console.log("created users table");
-    const createTableStr = `
+    const createReviews = `
       CREATE TABLE reviews (
         review_id SERIAL PRIMARY KEY,
         title VARCHAR(200) NOT NULL,
@@ -46,11 +47,11 @@ const seed = (data) => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         votes INT DEFAULT 0
       );`;
-    return db.query(createTableStr)
+    return db.query(createReviews)
   })
   .then(() => {
     console.log("created reviews table");
-    const createTableStr = `
+    const createComments = `
     CREATE TABLE comments (
       comment_id SERIAL PRIMARY KEY,
       body VARCHAR(1000) NOT NULL,
@@ -61,17 +62,112 @@ const seed = (data) => {
       FOREIGN KEY (review_id) REFERENCES reviews(review_id),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`;
-  return db.query(createTableStr);
+  return db.query(createComments);
   })
   .then(() => {
     console.log("created comments table");
+    const insertIntoCategories = format (
+      `INSERT INTO categories
+        (slug,
+        description)
+      VALUES
+        %L RETURNING *;
+      `,
+      categoryData.map((category) => {
+        return [
+          category.slug,
+          category.description
+        ]
+      })
+    )
+    return db.query(insertIntoCategories);
+  })
+  // 2. insert data
+  .then((response) => {
+    console.log("inserted data into categories table");
+    console.log(response.rows);
+    const insertIntoUsers = format (
+      `INSERT INTO users
+        (username,
+        name,
+        avatar_url)
+      VALUES
+        %L RETURNING *;
+      `,
+      userData.map((user) => {
+        return [
+          user.username,
+          user.name,
+          user.avatar_url
+        ]
+      })
+    )
+    return db.query(insertIntoUsers);
+  })
+  .then((response) => {
+    console.log("inserted data into users table");
+    console.log(response.rows);
+    const insertIntoReviews = format (
+      `INSERT INTO reviews
+        (title,
+        designer,
+        owner,
+        review_img_url,
+        review_body,
+        category,
+        created_at,
+        votes)
+      VALUES
+        %L RETURNING *;
+      `,
+      reviewData.map((review) => {
+        return [
+          review.title,
+          review.designer,
+          review.owner,
+          review.review_img_url,
+          review.review_body,
+          review.category,
+          review.created_at,
+          review.votes
+        ]
+      })
+    )
+    return db.query(insertIntoReviews);
+  })
+  .then((response) => {
+    console.log("inserted data into reviews table");
+    console.log(response.rows);
+    const insertIntoComments = format (
+      `INSERT INTO comments
+        (body,
+        votes,
+        author,
+        review_id,
+        created_at)
+      VALUES
+        %L RETURNING *;
+      `,
+      commentData.map((comment) => {
+        return [
+          comment.body,
+          comment.votes,
+          comment.author,
+          comment.review_id,
+          comment.created_at,
+        ]
+      })
+    )
+    return db.query(insertIntoComments);
+
+  })
+  .then((response) => {
+    console.log("inserted data into comments table");
+    console.log(response.rows);
   })
   .catch((err) => {
     console.log(err);
   })
-  // 2. insert data
 };
 
 module.exports = seed;
-
-//        created_at TIMESTAMP DEFAULT CURRENT TIMESTAMP,
