@@ -51,7 +51,7 @@ describe('GET /api/reviews/:review_id', () => {
           review_img_url: 'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
           review_body: 'Fiddly fun for all the family',
           category: 'dexterity',
-          created_at: new Date(1610964101251).toString(),
+          created_at: new Date(1610964101251).toISOString(),
           votes: 5,
           comment_count: 3 
         });
