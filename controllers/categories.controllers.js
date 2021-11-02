@@ -1,10 +1,12 @@
 const { fetchCategories } = require('../models/categories.models.js');
 
-function getCategories(req, res) {
-  fetchCategories();
-  res.status(200).send();
+function getCategories(req, res, next) {
+  fetchCategories().then((response) => {
+    res.status(200).send({ categories: response });
+  })
+  .catch(next);
 };
 
 module.exports = { getCategories };
 
-// controllers normal promises
+// For controllers Andrea recommends using normal promises

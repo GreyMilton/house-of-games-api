@@ -1,10 +1,15 @@
+const db = require('../db/connection.js');
+
 
 function fetchCategories() {
-  console.log("hello there!");
+  return db.query(`SELECT * FROM categories`)
+  .then((response) => {
+    return response.rows;
+  });
 };
 
 module.exports = { fetchCategories };
 
 
 
-//async / await in models
+// Andrea suggested to use async / await in models

@@ -8,11 +8,12 @@ const reviewsRouter = require('./reviews-routes.js');
 const usersRouter = require('./users-routes.js');
 
 apiRouter.get('/', (req, res, next) => {
+  res.status(200).send({ msg: "Hello, this is your API router, all good here!"});
 })
 
 apiRouter.use('/categories', categoryRouter);
-apiRouter.use('/comments', categoryRouter);
-apiRouter.use('/reviews', categoryRouter);
-apiRouter.use('/users', categoryRouter);
+apiRouter.use('/comments', commentsRouter);
+apiRouter.use('/reviews', reviewsRouter);
+apiRouter.use('/users', usersRouter);
 
 module.exports = apiRouter;

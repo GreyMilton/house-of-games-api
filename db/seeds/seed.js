@@ -38,12 +38,10 @@ const seed = (data) => {
         review_id SERIAL PRIMARY KEY,
         title VARCHAR(200) NOT NULL,
         designer VARCHAR(50),
-        owner VARCHAR(30),
-        FOREIGN KEY (owner) REFERENCES users(username),
+        owner VARCHAR(30), FOREIGN KEY (owner) REFERENCES users(username),
         review_img_url VARCHAR(300) DEFAULT 'https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg',
         review_body VARCHAR(1500),
-        category VARCHAR(40),
-        FOREIGN KEY (category) REFERENCES categories(slug),
+        category VARCHAR(40), FOREIGN KEY (category) REFERENCES categories(slug),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         votes INT DEFAULT 0
       );`;
