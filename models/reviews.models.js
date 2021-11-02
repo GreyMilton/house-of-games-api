@@ -22,6 +22,30 @@ function fetchReview(id) {
     review.comment_count = Number(response[1].rows[0].comment_count);
     return review;
   })
+
+
+
+
+  // my attempt to acheive the above with only one query:
+
+  // SELECT reviews.*, COUNT(comment_id) AS comment_count
+  // FROM reviews
+  // LEFT JOIN comments ON comments.review_id = reviews.review_id
+  // GROUP BY review_id
+  // WHERE review_id = $1;   <--- I'm not %100 where this line should go
+
+
+  // let queryStr = `
+  //   SELECT reviews.*, COUNT(comment_id) AS comment_count
+  //   FROM reviews
+  //   LEFT JOIN comments ON comments.review_id = reviews.review_id
+  //   GROUP BY reviews.review_id;`;
+  // return db.query(queryStr/*, [id]*/)
+  // .then((response) => {
+  //   console.log(response.rows);
+  //   return response.rows[0];
+  // })
+
 };
 
 module.exports = { fetchReview };
