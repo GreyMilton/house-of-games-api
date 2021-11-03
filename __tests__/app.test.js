@@ -66,6 +66,13 @@ describe('GET /api/reviews/:review_id', () => {
         expect(response.body).toEqual({ msg: "Invalid query" });
       });
   });
+  test('status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table', () => {
+    const reviewId = "999";
+    return request(app)
+      .get(`/api/reviews/${reviewId}`)
+      .expect(404)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Review not found" });
+      });
+  });
 });
-
-// review_id not a number: status400, { msg: "Invalid query" }

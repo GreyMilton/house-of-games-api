@@ -18,6 +18,7 @@ function fetchReview(id) {
   // })
 
   // my current version using one query:
+
   let queryStr = `
     SELECT reviews.*, COUNT(comment_id) ::INT AS comment_count
     FROM reviews
@@ -26,6 +27,9 @@ function fetchReview(id) {
     GROUP BY reviews.review_id;`;
   return db.query(queryStr, [id])
   .then((response) => {
+    if (response.rows.length === 0) {
+      return Promise.reject({status: 404, msg: "Review not found" });
+    }
     return response.rows[0];
   })
 

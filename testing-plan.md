@@ -14,11 +14,10 @@
 ## GET /api/reviews/:review_id
 
     tested and implemented:
+
   - happy path: status200, response.body { review: {} }
 
   - sad path: review_id not a number: status400, { msg: "Invalid query" }
+  - sad path: review_id a number that is not currently used: status404, { msg: "Review not found" }
 
-
-    to test and implement:
-  sad paths:
-  - review_id a number that is not currently used: status404, { msg: "Review not found" }
+  
