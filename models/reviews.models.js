@@ -26,7 +26,6 @@ function fetchReview(id) {
     GROUP BY reviews.review_id;`;
   return db.query(queryStr, [id])
   .then((response) => {
-    console.log(response.rows);
     return response.rows[0];
   })
 

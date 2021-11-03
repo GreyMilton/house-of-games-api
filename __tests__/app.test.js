@@ -37,7 +37,7 @@ describe('GET /api/categories', () => {
 });
 
 describe('GET /api/reviews/:review_id', () => {
-  test('response with status:200 and sends the correct review object', () => {
+  test('responds with status:200 and sends the correct review object', () => {
     const reviewId = 2;
     return request(app)
       .get(`/api/reviews/${reviewId}`)
@@ -57,5 +57,15 @@ describe('GET /api/reviews/:review_id', () => {
         });
       });
   });
+  test('status:400 with body { msg: "Invalid query" } when review_id in path is not a number (as it should be)', () => {
+    const reviewId = "not a number oops";
+    return request(app)
+      .get(`/api/reviews/${reviewId}`)
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Invalid query" });
+      });
+  });
 });
 
+// review_id not a number: status400, { msg: "Invalid query" }
