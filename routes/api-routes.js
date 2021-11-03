@@ -7,6 +7,7 @@ const commentsRouter = require('./comments-routes.js');
 const reviewsRouter = require('./reviews-routes.js');
 const usersRouter = require('./users-routes.js');
 
+
 apiRouter.get('/', (req, res, next) => {
   res.status(200).send({ msg: "Hello, this is your API router, all good here!"});
 })

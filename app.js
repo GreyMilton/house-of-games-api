@@ -3,6 +3,8 @@ const app = express();
 
 const apiRouter = require('./routes/api-routes.js')
 
+app.use(express.json());
+
 app.use('/api', apiRouter);
 
 app.all("/*", (req, res, next) => {

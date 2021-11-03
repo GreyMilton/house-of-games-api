@@ -19,7 +19,7 @@ function fetchReview(id) {
 
   // my current version using one query:
 
-  let queryStr = `
+  const queryStr = `
     SELECT reviews.*, COUNT(comment_id) ::INT AS comment_count
     FROM reviews
     LEFT JOIN comments ON comments.review_id = reviews.review_id
@@ -35,4 +35,18 @@ function fetchReview(id) {
 
 };
 
-module.exports = { fetchReview };
+function updateReview(id, newValue) {
+  console.log("in the patch review model! with id:", id, "and newValue:", newValue);
+
+  const updateStr = `
+  ;`;
+
+  return db.query(updateStr, [id, newValue])
+  .then((response) => {
+    console.log(response.rows);
+    return response.rows[0]
+  })
+
+}
+
+module.exports = { fetchReview, updateReview };

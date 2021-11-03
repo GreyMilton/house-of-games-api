@@ -78,11 +78,11 @@ describe('GET /api/reviews/:review_id', () => {
 });
 
 describe('PATCH /api/reviews/:review_id', () => {
-  test('', () => {
+  test('status:200 receiving correctly updated review_id', () => {
     const reviewId = 2;
     const newValue = 5;
     return request(app)
-      .patch('/api/reviews/:review_id')
+      .patch(`/api/reviews/${reviewId}`)
       .send({ inc_votes: newValue })
       .expect(200)
       .then((response) => {
