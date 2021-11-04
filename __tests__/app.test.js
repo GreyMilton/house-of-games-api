@@ -95,8 +95,7 @@ describe('PATCH /api/reviews/:review_id', () => {
           review_body: 'Fiddly fun for all the family',
           category: 'dexterity',
           created_at: new Date(1610964101251).toISOString(),
-          votes: 10,
-          comment_count: 3 
+          votes: 10
         });
       });
   });

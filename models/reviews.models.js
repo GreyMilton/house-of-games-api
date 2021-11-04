@@ -35,13 +35,16 @@ function fetchReview(id) {
 
 };
 
-function updateReview(id, newValue) {
-  console.log("in the patch review model! with id:", id, "and newValue:", newValue);
+function updateReview(newValue, id) {
+  console.log("in the patch review model! with newValue:", newValue, "and id:", id);
 
   const updateStr = `
-  ;`;
+  UPDATE reviews
+  SET votes = votes + $1
+  WHERE review_id = $2
+  RETURNING *;`;
 
-  return db.query(updateStr, [id, newValue])
+  return db.query(updateStr, [newValue, id])
   .then((response) => {
     console.log(response.rows);
     return response.rows[0]
