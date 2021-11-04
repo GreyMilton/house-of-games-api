@@ -40,6 +40,29 @@
 
   - sad path: request body missing,  status:400 { msg: "Incomplete request"}
 
+## GET /api/reviews
 
+  responds with all the reviews as they are in the database, each with an additional key-value pair: comment_count, just as was with GET /api/reviews/:review_id
 
-  
+  the twist: it should accept queries:
+  1. `sort_by`, which sorts the reviews by any valid column (defaults to date)
+  2. `order`, which can be set to `asc` or `desc` for ascending or descending (defaults to descending)
+  3. `category`, which filters the reviews by the category value specified in the query
+
+  to test and implement:
+
+  - happy paths: status200, response.body { reviews: [{},{},{}] }
+  1. returns all reviews with no query being supplied
+  2. returns all reviews sorted (default sorted: by the date column, descending)
+  3. returns all reviews sorted by the date column when specified, defaulting to descending order.
+  4. returns all reviews sorted by another valid column when queried (other than the date column), defaulting to descending
+  5. returns all reviews sorted by a valid column when queried (other than the date column), with descending specified
+  6. returns all reviews sorted in ascending order by a valid column when queried (other than the date column) with ascending specified
+  7. returns all reviews sorted (default sorted: by the date column), but listed in ascending order
+  8. returns results filtered by category when using default sorting and ordering
+  9. returns results filtered by category when ascending by a valid column is specified
+
+  sad paths:
+  - sort_by query is not a valid column
+  - order is not a valid string ('asc' or 'desc')
+  - category is not a valid category

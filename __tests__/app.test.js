@@ -154,7 +154,7 @@ describe('PATCH /api/reviews/:review_id', () => {
         expect(response.body).toEqual({ msg: "Invalid request body" });
       });
   });
-  test.only('status:400 { msg: "Invalid request body" } on receiving a request with an inc_votes value that is not a number, but is null', () => {
+  test('status:400 { msg: "Invalid request body" } on receiving a request with an inc_votes value that is not a number, but is null', () => {
     const reviewId = 2;
     const newValue = null;
     return request(app)
