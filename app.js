@@ -6,7 +6,7 @@ const apiRouter = require('./routes/api-routes.js')
 app.use(express.json());
 
 app.get('/', (req, res, next) => {
-  res.status(200).send({msg: "Hello and welcome to Grey's House Of Games API"});
+  res.status(200).send({msg: "Hello and welcome to Grey's House of Games API"});
 })
 
 app.use('/api', apiRouter);

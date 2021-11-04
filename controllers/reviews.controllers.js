@@ -13,7 +13,8 @@ function patchReview(req, res, next) {
   const reviewId = req.params.review_id;
   updateReview(newValue, reviewId).then((response) => {
     res.status(200).send({ review: response });
-  });
+  })
+  .catch(next);
 }
 
 module.exports = { getReview, patchReview };

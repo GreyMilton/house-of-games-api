@@ -99,4 +99,15 @@ describe('PATCH /api/reviews/:review_id', () => {
         });
       });
   });
+  test('status:400 { msg: "Invalid query" } on receiving a request with a review_id that is not a number', () => {
+    const reviewId = "not a number";
+    const newValue = 5;
+    return request(app)
+      .patch(`/api/reviews/${reviewId}`)
+      .send({ inc_votes: newValue })
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Invalid query" });
+      });
+  });
 });

@@ -24,11 +24,14 @@
 
   patch request with path and body { inc_votes: newVote } where inc_votes means votes to increment, and newVote is the amount to do so. Allow for negative number to then decrement instead of increment.
 
-    to test and implement:
+    already tested and implemented:
   
   - happy path: status 200, response.body { review: {} }
 
   - sad path: review_id not a number: status400, { msg: "Invalid query" }
+
+    to test and implement:
+
   - sad path: review_id a number that is not currently used: status404, { msg: "Review not found" }
   - sad path: request body is not in correct format with a key typo like "inc_otes" instead of "inc_votes. status:400 { msg: "Invalid request body"}
   - sad path: request body is not in correct format with object being too large: more than one key. status:400 { msg: "Invalid request body"}
