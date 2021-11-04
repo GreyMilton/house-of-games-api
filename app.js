@@ -5,6 +5,10 @@ const apiRouter = require('./routes/api-routes.js')
 
 app.use(express.json());
 
+app.get('/', () => {
+  res.status(200).send({msg: "Hello and welcome to Grey's House Of Games API"});
+})
+
 app.use('/api', apiRouter);
 
 app.all("/*", (req, res, next) => {
