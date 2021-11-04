@@ -10,11 +10,15 @@ function getReview(req, res, next) {
 
 function patchReview(req, res, next) {
   const newValue = req.body.inc_votes;
-  const reviewId = req.params.review_id;
-  updateReview(newValue, reviewId).then((response) => {
-    res.status(200).send({ review: response });
-  })
-  .catch(next);
+  if (newValue === undefined) {
+    res.status(400).send({ msg: "Invalid request body"});
+  } else {
+    const reviewId = req.params.review_id;
+    updateReview(newValue, reviewId).then((response) => {
+      res.status(200).send({ review: response });
+    })
+    .catch(next);
+  }
 }
 
 module.exports = { getReview, patchReview };

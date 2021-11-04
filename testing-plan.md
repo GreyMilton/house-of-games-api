@@ -32,12 +32,12 @@
 
   - sad path: review_id a number that is not currently used: status404, { msg: "Review not found" }
 
+  - sad path: request body is not in correct format with a key typo like "inc_otes" instead of "inc_votes. status:400 { msg: "Invalid request body"}
   
     to test and implement:
 
-  - sad path: request body is not in correct format with a key typo like "inc_otes" instead of "inc_votes. status:400 { msg: "Invalid request body"}
   - sad path: request body is not in correct format with object being too large: more than one key. status:400 { msg: "Invalid request body"}
   - sad path: request body is not in correct format as in it is not an object. status:400 { msg: "Invalid request body"}
-  - sad path: request body value is not a number, e.g. a string of characters, undefined, or something else status:400 { msg: "Invalid request body - invalid value"}
+  - sad path: request body value is not a number, e.g. a string of characters, undefined, or something else status:400 { msg: "Invalid request body"}
   - sad path: request body missing,  status:400 { msg: "Incomplete request"}
   

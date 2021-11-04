@@ -121,4 +121,15 @@ describe('PATCH /api/reviews/:review_id', () => {
         expect(response.body).toEqual({ msg: "Review not found" });
       });
   });
+  test('status:400 { msg: "Invalid request body"} on receiving a request with a body is not in correct format with a key typo like "inc_otes" instead of "inc_votes"', () => {
+    const reviewId = 2;
+    const newValue = 5;
+    return request(app)
+      .patch(`/api/reviews/${reviewId}`)
+      .send({ inc_otes: newValue })
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Invalid request body" });
+      });
+  });
 });
