@@ -110,4 +110,15 @@ describe('PATCH /api/reviews/:review_id', () => {
         expect(response.body).toEqual({ msg: "Invalid query" });
       });
   });
+  test('status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table', () => {
+    const reviewId = 999;
+    const newValue = 5;
+    return request(app)
+      .patch(`/api/reviews/${reviewId}`)
+      .send({ inc_votes: newValue })
+      .expect(404)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Review not found" });
+      });
+  });
 });

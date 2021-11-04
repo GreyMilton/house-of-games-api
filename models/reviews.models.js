@@ -46,7 +46,9 @@ function updateReview(newValue, id) {
 
   return db.query(updateStr, [newValue, id])
   .then((response) => {
-    console.log(response.rows);
+    if (response.rows.length === 0) {
+      return Promise.reject({status: 404, msg: "Review not found" });
+    }
     return response.rows[0]
   })
 
