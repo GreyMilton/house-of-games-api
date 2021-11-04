@@ -188,3 +188,28 @@ describe('PATCH /api/reviews/:review_id', () => {
       });
   });
 });
+
+describe.only('GET /api/reviews', () => {
+  test('returns all reviews with no query being supplied: responds with status:200 and sends array of review objects', () => {
+    return request(app)
+      .get('/api/reviews')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(13);
+        response.body.reviews.forEach((review) => {
+          expect(review).toMatchObject({
+            review_id: expect.any(Number),
+            title: expect.any(String),
+            designer: expect.any(String),
+            owner: expect.any(String),
+            review_img_url: expect.any(String),
+            review_body: expect.any(String),
+            category: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            comment_count: expect.any(Number)
+          });
+        });
+      });
+  });
+});

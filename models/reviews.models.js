@@ -54,4 +54,17 @@ function updateReview(newValue, id) {
 
 }
 
-module.exports = { fetchReview, updateReview };
+function fetchReviews() {
+  console.log("in the model!");
+  const queryStr = `
+  SELECT reviews.*, COUNT(comment_id) ::INT AS comment_count
+  FROM reviews
+  LEFT JOIN comments ON comments.review_id = reviews.review_id
+  GROUP BY reviews.review_id;`;
+return db.query(queryStr)
+.then((response) => {
+  return response.rows;
+})
+}
+
+module.exports = { fetchReview, updateReview, fetchReviews };
