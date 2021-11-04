@@ -9,8 +9,15 @@ function getReview(req, res, next) {
 };
 
 function patchReview(req, res, next) {
-  const newValue = req.body.inc_votes;
-  if (newValue === undefined || Object.keys(req.body).length !== 1) {
+  let newValue = req.body.inc_votes;
+  if (typeof newValue === 'string') {
+    console.log(newValue, "<--- initial newValue");
+    newValue = Number(newValue);
+    console.log(newValue, "<--- newValue as a number");
+  }
+
+  console.log(Number(newValue), typeof Number(newValue));
+  if (!newValue || newValue === true || Object.keys(req.body).length !== 1) {
     res.status(400).send({ msg: "Invalid request body"});
   } else {
     const reviewId = req.params.review_id;

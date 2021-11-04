@@ -143,4 +143,37 @@ describe('PATCH /api/reviews/:review_id', () => {
         expect(response.body).toEqual({ msg: "Invalid request body" });
       });
   });
+  test('status:400 { msg: "Invalid request body" } on receiving a request with an inc_votes value that is not a number, but a string of characters', () => {
+    const reviewId = 2;
+    const newValue = "oops";
+    return request(app)
+      .patch(`/api/reviews/${reviewId}`)
+      .send({ inc_votes: newValue })
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Invalid request body" });
+      });
+  });
+  test('status:400 { msg: "Invalid request body" } on receiving a request with an inc_votes value that is not a number, but is undefined', () => {
+    const reviewId = 2;
+    const newValue = undefined;
+    return request(app)
+      .patch(`/api/reviews/${reviewId}`)
+      .send({ inc_votes: newValue })
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Invalid request body" });
+      });
+  });
+  test('status:400 { msg: "Invalid request body" } on receiving a request with an inc_votes value that is not a number, but a boolean', () => {
+    const reviewId = 2;
+    const newValue = true;
+    return request(app)
+      .patch(`/api/reviews/${reviewId}`)
+      .send({ inc_votes: newValue })
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Invalid request body" });
+      });
+  });
 });
