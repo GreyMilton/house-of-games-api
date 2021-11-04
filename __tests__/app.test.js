@@ -132,4 +132,15 @@ describe('PATCH /api/reviews/:review_id', () => {
         expect(response.body).toEqual({ msg: "Invalid request body" });
       });
   });
+  test('status:400 { msg: "Invalid request body" } on receiving a request with a body that is not in correct format with object being too large: more than one key.', () => {
+    const reviewId = 2;
+    const newValue = 5;
+    return request(app)
+      .patch(`/api/reviews/${reviewId}`)
+      .send({ inc_votes: newValue, bad_key: "voila!" })
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Invalid request body" });
+      });
+  });
 });

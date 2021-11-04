@@ -10,7 +10,7 @@ function getReview(req, res, next) {
 
 function patchReview(req, res, next) {
   const newValue = req.body.inc_votes;
-  if (newValue === undefined) {
+  if (newValue === undefined || Object.keys(req.body).length !== 1) {
     res.status(400).send({ msg: "Invalid request body"});
   } else {
     const reviewId = req.params.review_id;
