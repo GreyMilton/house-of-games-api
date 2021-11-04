@@ -154,9 +154,9 @@ describe('PATCH /api/reviews/:review_id', () => {
         expect(response.body).toEqual({ msg: "Invalid request body" });
       });
   });
-  test('status:400 { msg: "Invalid request body" } on receiving a request with an inc_votes value that is not a number, but is undefined', () => {
+  test.only('status:400 { msg: "Invalid request body" } on receiving a request with an inc_votes value that is not a number, but is null', () => {
     const reviewId = 2;
-    const newValue = undefined;
+    const newValue = null;
     return request(app)
       .patch(`/api/reviews/${reviewId}`)
       .send({ inc_votes: newValue })
@@ -174,6 +174,17 @@ describe('PATCH /api/reviews/:review_id', () => {
       .expect(400)
       .then((response) => {
         expect(response.body).toEqual({ msg: "Invalid request body" });
+      });
+  });
+  test('status:400 { msg: "Incomplete request" } on receiving a request with no body content attached', () => {
+    const reviewId = 2;
+    const newValue = true;
+    return request(app)
+      .patch(`/api/reviews/${reviewId}`)
+      .send()
+      .expect(400)
+      .then((response) => {
+        expect(response.body).toEqual({ msg: "Incomplete request" });
       });
   });
 });
