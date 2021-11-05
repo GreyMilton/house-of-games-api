@@ -64,15 +64,15 @@
 
   6. returns all reviews sorted by a valid column when queried (other than the date column), with descending specified
 
+  7. returns all reviews sorted in ascending order by a valid column when queried (other than the date column) with ascending specified
+
+
+
   to test and implement:
 
   - happy paths: status200, response.body { reviews: [{},{},{}] }
 
-  ## NOTE: to help write these tests, remember to look through the lecture slides and NCNotes relating to tests for endpoints with queries
-
-
-  7. returns all reviews sorted in ascending order by a valid column when queried (other than the date column) with ascending specified
-  8. returns all reviews sorted (default sorted: by the date column), but listed in ascending order
+  8. returns all reviews sorted (default sorted: by the date column), but listed in ascending order as specified
   9. returns results filtered by category when using default sorting and ordering
   10. returns results filtered by category when ascending by a valid column is specified
 

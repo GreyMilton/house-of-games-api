@@ -269,4 +269,13 @@ describe.only('GET /api/reviews', () => {
         expect(response.body.reviews).toBeSortedBy("title", { descending: true });
       });
   });
+  test('returns all reviews sorted in ascending order by a valid column when queried (other than the date column) with ascending specified, responds with status:200', () => {
+    return request(app)
+      .get('/api/reviews?sort_by=owner&order=asc')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(13);
+        expect(response.body.reviews).toBeSortedBy("owner", { ascending: true });
+      });
+  });
 });
