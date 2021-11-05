@@ -73,7 +73,6 @@
   10. returns results filtered by category when ascending by a valid column is specified
 
 
-
   to test and implement:
 
   sad paths:
