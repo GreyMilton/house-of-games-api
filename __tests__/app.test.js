@@ -226,4 +226,18 @@ describe.only('GET /api/reviews', () => {
         }
       });
   });
+  test('returns all reviews sorted (default sorted: by the date column, descending), when request specifies to be sorted by the date column: responds with status:200 and sends array of review objects', () => {
+    return request(app)
+      .get('/api/reviews?sort_by=created_at')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(13);
+        for (let i = 0; i < response.body.reviews.length - 1; i++) {
+          const currentReviewDate = response.body.reviews[i].created_at;
+          const nextReviewDate = response.body.reviews[i + 1].created_at;
+          console.log(currentReviewDate, nextReviewDate);
+          expect(Date.parse(currentReviewDate)).toBeGreaterThanOrEqual(Date.parse(nextReviewDate));
+        }
+      });
+  });
 });
