@@ -27,7 +27,8 @@ function patchReview(req, res, next) {
 }
 
 function getReviews(req, res, next) {
-  fetchReviews().then((response) => {
+  const { sort_by } = req.query
+  fetchReviews(sort_by).then((response) => {
     res.status(200).send({ reviews: response });
   })
 }

@@ -1,4 +1,5 @@
 const db = require('../db/connection.js');
+const reviews = require('../db/data/test-data/reviews.js');
 
 
 function fetchReview(id) {
@@ -54,14 +55,14 @@ function updateReview(newValue, id) {
 
 }
 
-function fetchReviews() {
-  console.log("in the model!");
+function fetchReviews(sort_by = 'reviews.created_at') {
+  console.log("in the model with sort_by:", sort_by);
   const queryStr = `
   SELECT reviews.*, COUNT(comment_id) ::INT AS comment_count
   FROM reviews
   LEFT JOIN comments ON comments.review_id = reviews.review_id
   GROUP BY reviews.review_id
-  ORDER BY reviews.created_at DESC;`;
+  ORDER BY ${sort_by} DESC;`;
 return db.query(queryStr)
 .then((response) => {
   return response.rows;

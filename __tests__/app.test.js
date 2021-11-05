@@ -212,7 +212,7 @@ describe.only('GET /api/reviews', () => {
         });
       });
   });
-  test('returns all reviews sorted (default sorted: by the date column, descending) with no query being supplied: responds with status:200 and sends array of review objects', () => {
+  test('returns all reviews sorted (default sorted: by the date column, descending) with no query being supplied: responds with status:200', () => {
     return request(app)
       .get('/api/reviews')
       .expect(200)
@@ -226,7 +226,7 @@ describe.only('GET /api/reviews', () => {
         }
       });
   });
-  test('returns all reviews sorted (default sorted: by the date column, descending), when request specifies to be sorted by the date column: responds with status:200 and sends array of review objects', () => {
+  test('returns all reviews sorted (default sorted: by the date column, descending), when request specifies to be sorted by the date column: responds with status:200', () => {
     return request(app)
       .get('/api/reviews?sort_by=created_at')
       .expect(200)
@@ -237,6 +237,20 @@ describe.only('GET /api/reviews', () => {
           const nextReviewDate = response.body.reviews[i + 1].created_at;
           console.log(currentReviewDate, nextReviewDate);
           expect(Date.parse(currentReviewDate)).toBeGreaterThanOrEqual(Date.parse(nextReviewDate));
+        }
+      });
+  });
+  test('returns all reviews sorted by another valid column when queried (other than the date column), defaulting to descending: responds with status:200', () => {
+    return request(app)
+      .get('/api/reviews?sort_by=votes')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(13);
+        for (let i = 0; i < response.body.reviews.length - 1; i++) {
+          const currentReviewVotes = response.body.reviews[i].votes;
+          const nextReviewVotes = response.body.reviews[i + 1].votes;
+          console.log(currentReviewVotes, nextReviewVotes);
+          expect(currentReviewVotes).toBeGreaterThanOrEqual(nextReviewVotes);
         }
       });
   });
