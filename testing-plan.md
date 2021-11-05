@@ -68,13 +68,13 @@
 
   8. returns all reviews sorted (default sorted: by the date column), but listed in ascending order as specified
 
-
+  9. returns results filtered by category when using default sorting and ordering
 
   to test and implement:
 
   - happy paths: status200, response.body { reviews: [{},{},{}] }
 
-  9. returns results filtered by category when using default sorting and ordering
+
   10. returns results filtered by category when ascending by a valid column is specified
 
   sad paths:

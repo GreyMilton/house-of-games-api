@@ -287,4 +287,13 @@ describe.only('GET /api/reviews', () => {
         expect(response.body.reviews).toBeSortedBy("created_at", { ascending: true });
       });
   });
+  test('returns results filtered by category when using default sorting and ordering, responds with status:200', () => {
+    return request(app)
+      .get('/api/reviews?category=social%20deduction')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(11);
+        expect(response.body.reviews).toBeSortedBy("category", { descending: true });
+      });
+  });
 });

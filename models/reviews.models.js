@@ -55,14 +55,25 @@ function updateReview(newValue, id) {
 
 }
 
-function fetchReviews(sort_by = 'reviews.created_at', order = 'DESC') {
-  console.log("in the model with sort_by:", sort_by, "and order:", order);
-  const queryStr = `
+function fetchReviews(sort_by = 'created_at', order = 'DESC', category) {
+  console.log("in the model with sort_by:", sort_by, ", with order:", order, ", and category:", category);
+
+  const queryStrTop = `
   SELECT reviews.*, COUNT(comment_id) ::INT AS comment_count
   FROM reviews
-  LEFT JOIN comments ON comments.review_id = reviews.review_id
+  LEFT JOIN comments ON comments.review_id = reviews.review_id`;
+  const queryStrMid = `
+  WHERE reviews.category = \'${category}\'`;
+  const queryStrTail = `
   GROUP BY reviews.review_id
-  ORDER BY ${sort_by} ${order};`;
+  ORDER BY reviews.${sort_by} ${order};`;
+  let queryStr;
+  if (!category) {
+    queryStr = queryStrTop + queryStrTail;
+  } else {
+    queryStr = queryStrTop + queryStrMid + queryStrTail;
+  }
+  console.log("queryStr:", queryStr);
 return db.query(queryStr)
 .then((response) => {
   return response.rows;
