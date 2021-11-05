@@ -221,7 +221,6 @@ describe.only('GET /api/reviews', () => {
         for (let i = 0; i < response.body.reviews.length - 1; i++) {
           const currentReviewDate = response.body.reviews[i].created_at;
           const nextReviewDate = response.body.reviews[i + 1].created_at;
-          console.log(currentReviewDate, nextReviewDate);
           expect(Date.parse(currentReviewDate)).toBeGreaterThanOrEqual(Date.parse(nextReviewDate));
         }
       });
@@ -235,7 +234,6 @@ describe.only('GET /api/reviews', () => {
         for (let i = 0; i < response.body.reviews.length - 1; i++) {
           const currentReviewDate = response.body.reviews[i].created_at;
           const nextReviewDate = response.body.reviews[i + 1].created_at;
-          console.log(currentReviewDate, nextReviewDate);
           expect(Date.parse(currentReviewDate)).toBeGreaterThanOrEqual(Date.parse(nextReviewDate));
         }
       });
@@ -249,9 +247,17 @@ describe.only('GET /api/reviews', () => {
         for (let i = 0; i < response.body.reviews.length - 1; i++) {
           const currentReviewVotes = response.body.reviews[i].votes;
           const nextReviewVotes = response.body.reviews[i + 1].votes;
-          console.log(currentReviewVotes, nextReviewVotes);
           expect(currentReviewVotes).toBeGreaterThanOrEqual(nextReviewVotes);
         }
+      });
+  });
+  test('returns all reviews sorted by another valid column WITHOUT number values when queried (e.g. a string), defaulting to descending responds with status:200', () => {
+    return request(app)
+      .get('/api/reviews?sort_by=designer')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(13);
+        expect(response.body.reviews).toBeSortedBy("designer", { descending: true });
       });
   });
 });

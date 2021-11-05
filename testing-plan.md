@@ -58,7 +58,9 @@
 
   3. returns all reviews sorted by the date column when specified, defaulting to descending order.
 
-  4. returns all reviews sorted by another valid column when queried (other than the date column), defaulting to descending
+  4. returns all reviews sorted by another valid column with number values when queried (other than the date column), defaulting to descending
+
+  5. returns all reviews sorted by another valid column WITHOUT number values when queried (e.g. a string), defaulting to descending
 
   to test and implement:
 
@@ -66,11 +68,13 @@
 
   ## NOTE: to help write these tests, remember to look through the lecture slides and NCNotes relating to tests for endpoints with queries
 
-  5. returns all reviews sorted by a valid column when queried (other than the date column), with descending specified
-  6. returns all reviews sorted in ascending order by a valid column when queried (other than the date column) with ascending specified
-  7. returns all reviews sorted (default sorted: by the date column), but listed in ascending order
-  8. returns results filtered by category when using default sorting and ordering
-  9. returns results filtered by category when ascending by a valid column is specified
+
+
+  6. returns all reviews sorted by a valid column when queried (other than the date column), with descending specified
+  7. returns all reviews sorted in ascending order by a valid column when queried (other than the date column) with ascending specified
+  8. returns all reviews sorted (default sorted: by the date column), but listed in ascending order
+  9. returns results filtered by category when using default sorting and ordering
+  10. returns results filtered by category when ascending by a valid column is specified
 
   sad paths:
   - sort_by query is not a valid column
