@@ -1,5 +1,4 @@
 const db = require('../db/connection.js');
-const reviews = require('../db/data/test-data/reviews.js');
 
 
 function fetchReview(id) {
@@ -125,4 +124,20 @@ console.log("categoryQuery:", categoryQuery);
 
 }
 
-module.exports = { fetchReview, updateReview, fetchReviews };
+function fetchReviewsComments(id) {
+  const queryStr = `
+    SELECT *
+    FROM comments
+    WHERE review_id = $1`;
+    return db.query(queryStr, [id])
+  .then((response) => {
+    console.log(response.rows);
+    // if (response.rows.length === 0) {
+    //   return Promise.reject({status: 404, msg: "Review not found" });
+    // }
+    return response.rows;
+  })
+
+}
+
+module.exports = { fetchReview, updateReview, fetchReviews, fetchReviewsComments };

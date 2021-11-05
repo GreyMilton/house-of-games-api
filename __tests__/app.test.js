@@ -4,6 +4,7 @@ const { seed } = require('../db/seeds/seed.js');
 
 const app = require('../app.js');
 const request = require('supertest');
+const { describe } = require('jest-circus');
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -367,3 +368,27 @@ describe('GET /api/reviews', () => {
     });
   });
 });
+
+describe('GET /api/reviews/:review_id/comments', () => {
+  describe('Happy path', () => {
+    test('responds with status:200 and sends array of category objects', () => {
+      const review_Id = 2;
+      return request(app)
+        .get(`/api/reviews/${review_Id}/comments`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.comments).toHaveLength(3);
+          response.body.comments.forEach((comment) => {
+            expect(comment).toMatchObject({
+              review_id: expect.any(Number),
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String)
+            });
+          });
+        });
+    });
+  })
+})

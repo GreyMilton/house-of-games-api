@@ -13,7 +13,7 @@
 
 ## GET /api/reviews/:review_id
 
-    tested and implemented:
+  tested and implemented:
 
   - happy path: status200, response.body { review: {} }
 
@@ -90,3 +90,27 @@
     
   - no reviews found with that category
     status:404 { msg: "Reviews not found" } if that category is not currently found on a review in the reviews table
+
+
+## **GET /api/reviews/:review_id/comments**
+
+Responds with:
+
+- an array of comments for the given `review_id` of which each comment should have the following properties:
+  - `comment_id`
+  - `votes`
+  - `created_at`
+  - `author` which is the `username` from the users table
+  - `body`
+
+---
+
+Tested and implemented:
+
+happy path:
+- status:200 response.body.comments is an array of objects
+
+To test and implement:
+
+- sad path: review_id not a number: status400, { msg: "Invalid query" }
+- sad path: review_id a number that is not currently used: status404, { msg: "Review not found" }
