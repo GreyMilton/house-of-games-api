@@ -115,3 +115,22 @@ happy path:
 - sad path: review_id a number that is not currently used: status404, { msg: "Review not found" }
 - sad path: no comments found relating to given review_id
 status404, { msg: "No comments found" }
+
+
+## **POST /api/reviews/:review_id/comments**
+
+Request body accepts:
+
+- an object with the following properties:
+  - `username`
+  - `body`
+
+Responds with:
+
+- the posted comment
+
+---
+
+happy path:
+- status:201 response.body.comment is a valid comment object with keys: comment_id, body, votes, author, review_id, created_at)
+

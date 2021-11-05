@@ -1,4 +1,4 @@
-const { fetchReview, updateReview, fetchReviews, fetchReviewsComments } = require('../models/reviews.models.js');
+const { fetchReview, updateReview, fetchReviews, fetchReviewsComments, insertReviewComment } = require('../models/reviews.models.js');
 
 function getReview(req, res, next) {
   const reviewId = req.params.review_id
@@ -41,4 +41,20 @@ function getReviewsComments(req, res, next) {
   .catch(next);
 }
 
-module.exports = { getReview, patchReview, getReviews, getReviewsComments };
+function postReviewComment(req, res, next) {
+  console.log("into the controller!");
+  
+  const reviewId = req.params.review_id;
+
+  console.log(req.body);
+
+  const { username, body } = req.body;
+  
+  insertReviewComment(username, body, reviewId).then((response) => {
+    console.log("back into the controller!");
+    res.status(201).send({ comment: response });
+  })
+  .catch(next);
+}
+
+module.exports = { getReview, patchReview, getReviews, getReviewsComments, postReviewComment };

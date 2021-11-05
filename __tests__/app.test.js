@@ -4,7 +4,6 @@ const { seed } = require('../db/seeds/seed.js');
 
 const app = require('../app.js');
 const request = require('supertest');
-const { describe } = require('jest-circus');
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -391,7 +390,7 @@ describe('GET /api/reviews/:review_id/comments', () => {
         });
     });
   })
-  describe.only('Sad paths', () => {
+  describe('Sad paths', () => {
     test('status:400 with body { msg: "Invalid query" } when review_id in path is not a number (as it should be)', () => {
       const reviewId = "not a number oops";
       return request(app)
@@ -421,3 +420,29 @@ describe('GET /api/reviews/:review_id/comments', () => {
     });
   })
 })
+
+describe('POST /api/reviews/:review_id/comments', () => {
+  describe.only('Happy path', () => {
+    test('status:201 response.body.comment is a valid comment object with keys: comment_id, body, votes, author, review_id, created_at)', () => {
+      const requestBody = {
+        username: 'philippaclaire9',
+        body: 'blah blah blah blah blah blah yes yes ok ok IT IS 318054 yep :)'
+      };
+      const reviewId = 1
+      return request(app)
+        .post(`/api/reviews/${reviewId}/comments`)
+        .send(requestBody)
+        .expect(201)
+        .then((response) => {
+          expect(response.body.comment).toMatchObject({
+            comment_id: 6,
+            body: 'blah blah blah blah blah blah yes yes ok ok IT IS 318054 yep :)',
+            votes: 0,
+            author: 'philippaclaire9',
+            review_id: 1,
+            created_at: expect.any(String)
+          });
+        }); 
+    });
+  });
+});

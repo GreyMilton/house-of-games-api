@@ -12,6 +12,7 @@ apiRouter.get('/', (req, res, next) => {
   res.status(200).send({ msg: "Hello, this is your API router, all good here!"});
 })
 
+
 apiRouter.use('/categories', categoryRouter);
 apiRouter.use('/comments', commentsRouter);
 apiRouter.use('/reviews', reviewsRouter);
