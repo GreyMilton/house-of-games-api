@@ -260,4 +260,13 @@ describe.only('GET /api/reviews', () => {
         expect(response.body.reviews).toBeSortedBy("designer", { descending: true });
       });
   });
+  test('returns all reviews sorted by a valid column when queried (other than the date column), with descending specified, responds with status:200', () => {
+    return request(app)
+      .get('/api/reviews?sort_by=title&order=desc')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(13);
+        expect(response.body.reviews).toBeSortedBy("title", { descending: true });
+      });
+  });
 });
