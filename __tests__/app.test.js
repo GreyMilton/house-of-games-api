@@ -4,7 +4,6 @@ const { seed } = require('../db/seeds/seed.js');
 
 const app = require('../app.js');
 const request = require('supertest');
-const { describe } = require('yargs');
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -50,7 +49,7 @@ describe('GET /api/reviews/:review_id', () => {
             title: 'Jenga',
             designer: 'Leslie Scott',
             owner: 'philippaclaire9',
-            review_img_url: 'https://www.golenbock.com/ wp-content/uploads/2015/01/placeholder-user.png',
+            review_img_url: 'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
             review_body: 'Fiddly fun for all the family',
             category: 'dexterity',
             created_at: new Date(1610964101251).toISOString(),
@@ -198,7 +197,7 @@ describe('PATCH /api/reviews/:review_id', () => {
   });
 });
 
-describe.only('GET /api/reviews', () => {
+describe('GET /api/reviews', () => {
   describe('Happy paths', () => {
     test('returns all reviews with no query being supplied: responds with status:200 and sends array of review objects', () => {
       return request(app)
@@ -317,6 +316,54 @@ describe.only('GET /api/reviews', () => {
     });
   })
   describe('Sad paths', () => {
-    
-  })
+    test('status:400 { msg: "Invalid query" } one of the queries columns has a typo', () => {
+      return request(app)
+        .get('/api/reviews?sor_by=review_id&order=asc&category=social%20deduction')
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Invalid query" });
+        });
+    });
+
+    test('status:400 { msg: "Invalid query" } query keys or syntax written badly in some other way', () => {
+      return request(app)
+        .get('/api/reviews?bad-query')
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Invalid query" });
+        });
+    });
+    test('status:400 { msg: "Invalid sort_by query" } if sort_by query is not a valid column', () => {
+      return request(app)
+        .get('/api/reviews?sort_by=WRONG&order=asc&category=social%20deduction')
+        .expect(400)
+        .then((response) => {
+        expect(response.body).toEqual({ msg: "Invalid sort_by query" });
+        });
+    });
+    test('status:400 { msg: "Invalid order query" } if order is neither "asc" nor "desc"', () => {
+      return request(app)
+      .get('/api/reviews?sort_by=review_id&order=WRONG&category=social%20deduction')
+      .expect(400)
+      .then((response) => {
+      expect(response.body).toEqual({ msg: "Invalid order query" });
+      });
+    });
+    test('status:400 { msg: "Invalid category query" } if category query is not a current category in the categories table', () => {
+      return request(app)
+      .get('/api/reviews?sort_by=review_id&order=asc&category=WRONG')
+      .expect(400)
+      .then((response) => {
+      expect(response.body).toEqual({ msg: "Invalid category query" });
+      });
+    });
+    test('status:404 { msg: "Reviews not found" } if that category is not currently found on a review in the reviews table', () => {
+      return request(app)
+      .get('/api/reviews?sort_by=review_id&order=asc&category=children\'s%20games')
+        .expect(404)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Reviews not found" });
+        });
+    });
+  });
 });

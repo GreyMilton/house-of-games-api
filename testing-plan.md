@@ -72,11 +72,21 @@
 
   10. returns results filtered by category when ascending by a valid column is specified
 
-
-  to test and implement:
-
   sad paths:
+  - there are typos in one of the query keys
+    status:400 { msg: "Invalid query" }
+
+  - status:400 { msg: "Invalid query" }
+    query keys or syntax written badly in some other way
+
   - sort_by query is not a valid column
-  - order is not a valid string ('asc' or 'desc')
+    status:400 { msg: "Invalid sort_by query" }
+
+  - order is not a valid string ("asc" or "desc")
+    status:400 { msg: "Invalid order query" }
+
   - category is not a valid category
-  - queries are in the wrong order?
+    status:400 { msg: "Invalid category query" } if category query is not a current category in the categories table
+    
+  - no reviews found with that category
+    status:404 { msg: "Reviews not found" } if that category is not currently found on a review in the reviews table

@@ -37,7 +37,6 @@ function fetchReview(id) {
 };
 
 function updateReview(newValue, id) {
-  console.log("in the patch review model! with newValue:", newValue, "and id:", id);
 
   const updateStr = `
   UPDATE reviews
@@ -55,29 +54,75 @@ function updateReview(newValue, id) {
 
 }
 
-function fetchReviews(sort_by = 'created_at', order = 'DESC', category) {
-  console.log("in the model with sort_by:", sort_by, ", with order:", order, ", and category:", category);
+function fetchReviews(query) {
+  const queryKeys = Object.keys(query)
+  let { sort_by = 'created_at', order = 'DESC', category = false} = query;
+  let validKeys = true;
 
-  const queryStrTop = `
-  SELECT reviews.*, COUNT(comment_id) ::INT AS comment_count
-  FROM reviews
-  LEFT JOIN comments ON comments.review_id = reviews.review_id`;
-  const queryStrMid = `
-  WHERE reviews.category = \'${category}\'`;
-  const queryStrTail = `
-  GROUP BY reviews.review_id
-  ORDER BY reviews.${sort_by} ${order};`;
-  let queryStr;
-  if (!category) {
-    queryStr = queryStrTop + queryStrTail;
-  } else {
-    queryStr = queryStrTop + queryStrMid + queryStrTail;
+  for (let i = 0; i < queryKeys.length; i++) {
+    const key = queryKeys[i];
+    if (key !== 'sort_by' && key !== 'order' && key !== 'category') {
+      validKeys = false;
+    }
   }
-  console.log("queryStr:", queryStr);
-return db.query(queryStr)
-.then((response) => {
-  return response.rows;
-})
+  if (validKeys === false) {
+    return Promise.reject({ status:400, msg: "Invalid query" });
+  }
+  if (!['review_id', 'title', 'designer', 'owner', 'review_img_url', 'review_body', 'category', 'created_at',
+  'votes'].includes(sort_by)) {
+    return Promise.reject({ status:400, msg: "Invalid sort_by query" });
+  }
+  if (!['ASC', 'DESC', 'asc', 'desc'].includes(order)) {
+    return Promise.reject({ status:400, msg: "Invalid order query" });
+  }
+console.log("are we here?");
+console.log("category:", category);
+
+for (let i = 0; i < category.length; i++) {
+  if (category[i] === "'") {
+    category = category.substring(0, i) + "'" + category.substring(i);
+    i++;
+  };
+  
+}
+const categoryQuery = `
+  SELECT *
+  FROM categories
+  WHERE slug=\'${category}\';`;
+console.log("categoryQuery:", categoryQuery);
+  return db.query(categoryQuery)
+    .then((response) => {
+      console.log(response.rows);
+      if (response.rows.length === 0 && category !== false) {
+        return Promise.reject({ status:400, msg: "Invalid category query" });
+      } else {
+        console.log("here we are!");
+        const queryStrTop = `
+        SELECT reviews.*, COUNT(comment_id) ::INT AS comment_count
+        FROM reviews
+        LEFT JOIN comments ON comments.review_id = reviews.review_id`;
+        const queryStrMid = `
+        WHERE reviews.category = \'${category}\'`;
+        const queryStrTail = `
+        GROUP BY reviews.review_id
+        ORDER BY reviews.${sort_by} ${order};`;
+        let queryStr;
+        if (!category) {
+          queryStr = queryStrTop + queryStrTail;
+        } else {
+          queryStr = queryStrTop + queryStrMid + queryStrTail;
+        }
+        console.log(queryStr);
+        return db.query(queryStr)
+      }
+    })
+    .then((response) => {
+      if (response.rows.length === 0) {
+        return Promise.reject({status: 404, msg: "Reviews not found" });
+      }
+      return response.rows;
+    })
+
 }
 
 module.exports = { fetchReview, updateReview, fetchReviews };

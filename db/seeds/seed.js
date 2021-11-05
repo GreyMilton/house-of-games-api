@@ -22,7 +22,6 @@ const seed = (data) => {
     return db.query(createCategories);
   })
   .then(() => {
-    console.log("created categories table");
     const createUsers = `
       CREATE TABLE users (
         username VARCHAR(30) PRIMARY KEY,
@@ -32,7 +31,6 @@ const seed = (data) => {
     return db.query(createUsers)
   })
   .then(() => {
-    console.log("created users table");
     const createReviews = `
       CREATE TABLE reviews (
         review_id SERIAL PRIMARY KEY,
@@ -48,7 +46,6 @@ const seed = (data) => {
     return db.query(createReviews)
   })
   .then(() => {
-    console.log("created reviews table");
     const createComments = `
     CREATE TABLE comments (
       comment_id SERIAL PRIMARY KEY,
@@ -63,7 +60,6 @@ const seed = (data) => {
   return db.query(createComments);
   })
   .then(() => {
-    console.log("created comments table");
     const insertIntoCategories = format (
       `INSERT INTO categories
         (slug,
@@ -82,7 +78,6 @@ const seed = (data) => {
   })
   // 2. insert data
   .then((response) => {
-    console.log("inserted data into categories table");
     const insertIntoUsers = format (
       `INSERT INTO users
         (username,
@@ -102,7 +97,6 @@ const seed = (data) => {
     return db.query(insertIntoUsers);
   })
   .then((response) => {
-    console.log("inserted data into users table");
     const insertIntoReviews = format (
       `INSERT INTO reviews
         (title,
@@ -132,7 +126,6 @@ const seed = (data) => {
     return db.query(insertIntoReviews);
   })
   .then((response) => {
-    console.log("inserted data into reviews table");
     const insertIntoComments = format (
       `INSERT INTO comments
         (body,
@@ -157,7 +150,7 @@ const seed = (data) => {
 
   })
   .then((response) => {
-    console.log("inserted data into comments table");
+    console.log("seeding done, all tables created and data inserted");
   })
   .catch((err) => {
     console.log(err);
