@@ -70,14 +70,14 @@
 
   9. returns results filtered by category when using default sorting and ordering
 
-  to test and implement:
-
-  - happy paths: status200, response.body { reviews: [{},{},{}] }
-
-
   10. returns results filtered by category when ascending by a valid column is specified
+
+
+
+  to test and implement:
 
   sad paths:
   - sort_by query is not a valid column
   - order is not a valid string ('asc' or 'desc')
   - category is not a valid category
+  - queries are in the wrong order?

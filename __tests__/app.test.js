@@ -296,4 +296,13 @@ describe.only('GET /api/reviews', () => {
         expect(response.body.reviews).toBeSortedBy("category", { descending: true });
       });
   });
+  test('returns results filtered by category when ascending by a valid column is specified, responds with status:200', () => {
+    return request(app)
+      .get('/api/reviews?sort_by=review_id&order=asc&category=social%20deduction')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(11);
+        expect(response.body.reviews).toBeSortedBy("review_id", { ascending: true });
+      });
+  });
 });
