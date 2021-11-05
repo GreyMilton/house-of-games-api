@@ -212,4 +212,18 @@ describe.only('GET /api/reviews', () => {
         });
       });
   });
+  test('returns all reviews sorted (default sorted: by the date column, descending) with no query being supplied: responds with status:200 and sends array of review objects', () => {
+    return request(app)
+      .get('/api/reviews')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.reviews).toHaveLength(13);
+        for (let i = 0; i < response.body.reviews.length - 1; i++) {
+          const currentReviewDate = response.body.reviews[i].created_at;
+          const nextReviewDate = response.body.reviews[i + 1].created_at;
+          console.log(currentReviewDate, nextReviewDate);
+          expect(Date.parse(currentReviewDate)).toBeGreaterThanOrEqual(Date.parse(nextReviewDate));
+        }
+      });
+  });
 });

@@ -52,15 +52,15 @@
   tested and implemented:
 
   - happy paths:  status200, response.body { reviews: [{},{},{}] }
-    1. returns all reviews with no query being supplied
+  1. returns all reviews with no query being supplied
+
+  2. returns all reviews sorted (default sorted: by the date column, descending)
 
   to test and implement:
 
   - happy paths: status200, response.body { reviews: [{},{},{}] }
 
   ## NOTE: to help write these tests, remember to look through the lecture slides and NCNotes relating to tests for endpoints with queries
-
-  2. returns all reviews sorted (default sorted: by the date column, descending)
 
   3. returns all reviews sorted by the date column when specified, defaulting to descending order.
   4. returns all reviews sorted by another valid column when queried (other than the date column), defaulting to descending
