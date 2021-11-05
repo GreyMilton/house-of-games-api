@@ -127,14 +127,25 @@ console.log("categoryQuery:", categoryQuery);
 function fetchReviewsComments(id) {
   const queryStr = `
     SELECT *
-    FROM comments
+    FROM reviews
     WHERE review_id = $1`;
     return db.query(queryStr, [id])
   .then((response) => {
+    if (response.rows.length === 0) {
+      return Promise.reject({status: 404, msg: "Review not found" });
+    } else {
+      const queryStr2 = `
+      SELECT *
+      FROM comments
+      WHERE review_id = $1`;
+      return db.query(queryStr2, [id])
+    }
+  })
+  .then((response) => {
     console.log(response.rows);
-    // if (response.rows.length === 0) {
-    //   return Promise.reject({status: 404, msg: "Review not found" });
-    // }
+    if (response.rows.length === 0) {
+      return Promise.reject({status: 404, msg: "No comments found" });
+    }
     return response.rows;
   })
 

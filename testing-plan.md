@@ -110,7 +110,8 @@ Tested and implemented:
 happy path:
 - status:200 response.body.comments is an array of objects
 
-To test and implement:
 
 - sad path: review_id not a number: status400, { msg: "Invalid query" }
 - sad path: review_id a number that is not currently used: status404, { msg: "Review not found" }
+- sad path: no comments found relating to given review_id
+status404, { msg: "No comments found" }
