@@ -167,7 +167,7 @@ function insertReviewComment(username, body, id) {
     //   return Promise.reject({status: 404, msg: "Review not found" });
     // }
     console.log(response.rows);
-    return response.rows;
+    return response.rows[0];
   })
 }
 

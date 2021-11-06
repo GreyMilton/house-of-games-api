@@ -423,7 +423,7 @@ describe('GET /api/reviews/:review_id/comments', () => {
 
 describe('POST /api/reviews/:review_id/comments', () => {
   describe.only('Happy path', () => {
-    test('status:201 response.body.comment is a valid comment object with keys: comment_id, body, votes, author, review_id, created_at)', () => {
+    test('status:201 response.body.comment is a valid comment object with keys: comment_id, body, votes, author, review_id, created_at', () => {
       const requestBody = {
         username: 'philippaclaire9',
         body: 'blah blah blah blah blah blah yes yes ok ok IT IS 318054 yep :)'
@@ -435,7 +435,7 @@ describe('POST /api/reviews/:review_id/comments', () => {
         .expect(201)
         .then((response) => {
           expect(response.body.comment).toMatchObject({
-            comment_id: 6,
+            comment_id: 7,
             body: 'blah blah blah blah blah blah yes yes ok ok IT IS 318054 yep :)',
             votes: 0,
             author: 'philippaclaire9',
