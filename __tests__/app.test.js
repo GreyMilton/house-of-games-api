@@ -421,8 +421,8 @@ describe('GET /api/reviews/:review_id/comments', () => {
   })
 })
 
-describe('POST /api/reviews/:review_id/comments', () => {
-  describe.only('Happy path', () => {
+describe.only('POST /api/reviews/:review_id/comments', () => {
+  describe('Happy path', () => {
     test('status:201 response.body.comment is a valid comment object with keys: comment_id, body, votes, author, review_id, created_at', () => {
       const requestBody = {
         username: 'philippaclaire9',
@@ -445,4 +445,24 @@ describe('POST /api/reviews/:review_id/comments', () => {
         }); 
     });
   });
+  describe('Sad paths', () => {
+    // test('status:400 with body { msg: "Invalid query" } when review_id in path is not a number (as it should be)', () => {
+    //   const reviewId = "not a number oops";
+    //   return request(app)
+    //     .get(`/api/reviews/${reviewId}/comments`)
+    //     .expect(400)
+    //     .then((response) => {
+    //       expect(response.body).toEqual({ msg: "Invalid query" });
+    //     });
+    // });
+    // test('status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table', () => {
+    //   const reviewId = 999;
+    //   return request(app)
+    //     .get(`/api/reviews/${reviewId}/comments`)
+    //     .expect(404)
+    //     .then((response) => {
+    //       expect(response.body).toEqual({ msg: "Review not found" });
+    //     });
+    // });
+  })
 });
