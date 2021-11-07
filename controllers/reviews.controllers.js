@@ -43,18 +43,35 @@ function getReviewsComments(req, res, next) {
 
 function postReviewComment(req, res, next) {
   console.log("into the controller!");
+
+  const { username, body } = req.body;
+  // if (typeof newValue === 'string') {
+  //   newValue = Number(newValue);
+  // }
+  if (Object.keys(req.body).length === 0) {
+    console.log("into the first if");
+    res.status(400).send({ msg: "Incomplete request" });
+  } else if (!username || username === true || !body || body === true || Object.keys(req.body).length !== 2) {
+    res.status(400).send({ msg: "Invalid request body" });
+  } else {
+
+
+
+
+
   
   const reviewId = req.params.review_id;
 
   console.log(req.body);
 
-  const { username, body } = req.body;
+
   
   insertReviewComment(username, body, reviewId).then((response) => {
     console.log("back into the controller!");
     res.status(201).send({ comment: response });
   })
   .catch(next);
+}
 }
 
 module.exports = { getReview, patchReview, getReviews, getReviewsComments, postReviewComment };

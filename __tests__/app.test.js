@@ -460,7 +460,7 @@ describe.only('POST /api/reviews/:review_id/comments', () => {
           expect(response.body).toEqual({ msg: "Invalid query" });
         });
     });
-    test.only('status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table', () => {
+    test('status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table', () => {
       const reviewId = 999;
       const requestBody = {
         username: 'philippaclaire9',
@@ -472,6 +472,69 @@ describe.only('POST /api/reviews/:review_id/comments', () => {
         .expect(404)
         .then((response) => {
           expect(response.body).toEqual({ msg: "Review not found" });
+        });
+    });
+    test('status:400 with body { msg: "Invalid request body" } requestbody contains more keys than just username and body', () => {
+      const reviewId = 1;
+      const requestBody = {
+        username: 'philippaclaire9',
+        body: 'blah blah blah blah. Here is some content!',
+        bad_key: "voila!"
+      };
+      return request(app)
+        .post(`/api/reviews/${reviewId}/comments`)
+        .send(requestBody)
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Invalid request body" });
+        });
+    });
+    test('status:400 with body { msg: "Invalid request body" }  requestbody has a typo on the username or body key', () => {
+      const reviewId = 1;
+      const requestBody = {
+        userame: 'philippaclaire9',
+        body: 'blah blah blah blah. Here is some content!'
+      };
+      return request(app)
+        .post(`/api/reviews/${reviewId}/comments`)
+        .send(requestBody)
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Invalid request body" });
+        });
+    });
+    test('status:400 with body { msg: "Invalid request body" }  requestbody is missing either username or body', () => {
+      const reviewId = 1;
+      const requestBody = {
+        body: 'blah blah blah blah. Here is some content!'
+      };
+      return request(app)
+        .post(`/api/reviews/${reviewId}/comments`)
+        .send(requestBody)
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Invalid request body" });
+        });
+    });
+    test('status:400 with body { msg: "Invalid request body" } requestbody is not an object', () => {
+      const reviewId = 1;
+      const requestBody = ["username", "body"];
+      return request(app)
+        .post(`/api/reviews/${reviewId}/comments`)
+        .send(requestBody)
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Invalid request body" });
+        });
+    });
+    test('sad path: request body missing, status:400 { msg: "Incomplete request"}', () => {
+      const reviewId = 1;
+      return request(app)
+        .post(`/api/reviews/${reviewId}/comments`)
+        // NOTE: there is intentionally no .send
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Incomplete request" });
         });
     });
   })

@@ -141,19 +141,18 @@ sad paths:
 
 - status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table
 
-to test and implement:
-
-
-sad paths:
 
 - status:400 with body { msg: "Invalid request body" } requestbody contains more keys than just username and body
 
-- status:400 with body { msg: "Invalid request body" }  requestbody is missing either username or body
-
 - status:400 with body { msg: "Invalid request body" }  requestbody has a typo on the username or body key
 
+- status:400 with body { msg: "Invalid request body" }  requestbody is missing either username or body
+
 -  status:400 with body { msg: "Invalid request body" } requestbody is not an object
-OR:
-- sad path: request body missing,  status:400 { msg: "Incomplete request"}
+
+- sad path: request body missing, status:400 { msg: "Incomplete request"}
+
+
+
 
 
