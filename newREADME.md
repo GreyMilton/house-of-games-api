@@ -10,7 +10,7 @@ The project is an API that mimicks a real world backend service (such as reddit)
 
 >## Link to the hosted API:
 
-I have hosted a version of the API [on Heroku](). You can [access it here]()
+I have hosted a version of the API on Heroku. You can [access it here]()
 <br>
 <br>
 
@@ -46,18 +46,18 @@ All interactions with the API are done with the http methods:
 * *`PUT/PATCH`* (for updating pre-existing entries)
 * *`DELETE`* (for removing data entries)
 
-To the following endpoints are currently online and functional:
-* */api/categories* (`GET`)
-* */api/reviews/:review_id* (`GET` or `PUT/PATCH`)
-* */api/reviews* (`GET`)
-* */api/reviews/:review_id/comments* (`GET` or `POST`)
-* */api/comments/:comment_id* (`DELETE`)
-* */api* (`GET`)
+>The following endpoints are currently online and functional:
+>* (`GET`) **/api/categories**
+>* (`GET` or `PUT/PATCH`) **/api/reviews/:review_id**
+>* (`GET`) **/api/reviews**
+>* (`GET` or `POST`) **/api/reviews/:review_id/comments**
+>* (`DELETE`) **/api/comments/:comment_id**
+>* (`GET`) **/api**
 
 These endpoints are yet to be implemented:
-* */api/users* (`GET`)
-* */api/users/:username* (`GET`)
-* */api/comments/:comment_id* (`PUT/PATCH`)
+* (`GET`) **/api/users**
+* (`GET`) **/api/users/:username**
+* (`PUT/PATCH`) **/api/comments/:comment_id**
 
 To have a play with the API, go to [this link]().
 
@@ -72,7 +72,7 @@ If you're unsure where to start, try `/api` as your first endpoint to `GET`. You
 
 # How can I use this repo?
 
-If you'd like to install and run this git repo on your own machine, rather than viewing it here, or accessing the hosted version of the API at the [link above](), you will need to:
+If you'd like to install and run this git repository on your own machine, rather than viewing it at the address you are at now, or by accessing the hosted version of the API at the [link above](), you will need to:
 
 1. Install Node.js and Postgres.
 2. Fork and clone this repo.
@@ -99,14 +99,14 @@ You can download Postgres at `insert link`.
 
 Provided you have a GitHub account (free), you can `fork` this repo (optional) by clicking the `fork` in the top right of your window at `insert github link`. This will copy all of the repo information into a new repo attached to your own GitHub account.
 
-To then `clone` (copy) this Forked version, or the original if you prefer, to your own machine, click on the big green button `Code` also towards the top right of your screen (but further down and in), and copy the link found there. (Or you could simply copy the url in the address bar).
+To then `clone` (copy) this Forked version, or the original repo if you prefer, to your own machine, click on the big green button `Code` also towards the top right of your screen (but further down and in), and copy the link found there. (Or you could simply copy the url in the address bar).
 
-Type `git clone` and paste the url into your terminal and press enter:
+Type `git clone` into your terminal, and paste the copied url next to it. Then press enter:
 `````
 git clone "https://github.com/..."
 `````
 
-Now open the repo with your program of choice (VSCode is a good one).
+Now open the repo with your coding program of choice (VSCode is a good one).
 <br>
 <br>
 
@@ -166,7 +166,7 @@ Jest-sorted also requires the following piece of code to be inserted into the pa
 
 ## 4. Create two `.env` files
 
-In order for this repo to function correctly, two new files need to be created. They must have these exact names and contents:
+In order for this repo to function correctly, two new files need to be created in the repo's root directory. They must have these exact names and contents:
 
 ### *.env.development*
 `````
@@ -182,7 +182,7 @@ PGDATABASE=nc_games_test
 
 ## 5. Create local databases and seed
 
-You can now create the two repo databases locally. They are a *'development'* database, and a *'test'* database.
+You can now create the repo's two local databases. They are a *'development'* database, and a *'test'* database.
 
 In order to create the two databases, run this code in your terminal:
 `````
