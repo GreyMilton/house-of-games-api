@@ -154,5 +154,29 @@ sad paths:
 
 
 
+#### **DELETE /api/comments/:comment_id**
 
+Should:
+
+- delete the given comment by `comment_id`
+
+Responds with:
+
+- status 204 and no content
+
+---
+
+tested and implemented:
+
+happy path:
+- status:204, no content returned, while chosen comment has certainly been removed from database
+
+
+
+to test and implement:
+
+
+sad paths:
+- comment_id not a number, where it should be. status:400 with body { msg: "Invalid query" }
+- comment_id not found status:404 with body { msg: "Comment not found" } when comment_id in path is correctly a number, but the number is not found as a comment_id in the comment table
 

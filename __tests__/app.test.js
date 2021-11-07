@@ -421,7 +421,7 @@ describe('GET /api/reviews/:review_id/comments', () => {
   })
 })
 
-describe.only('POST /api/reviews/:review_id/comments', () => {
+describe('POST /api/reviews/:review_id/comments', () => {
   describe('Happy path', () => {
     test('status:201 response.body.comment is a valid comment object with keys: comment_id, body, votes, author, review_id, created_at', () => {
       const requestBody = {
@@ -538,4 +538,27 @@ describe.only('POST /api/reviews/:review_id/comments', () => {
         });
     });
   })
+});
+
+describe.only('DELETE /api/comments/:comment_id', () => {
+  describe('happy path', () => {
+    test('status:204, no content returned, while chosen comment has certainly been removed from database', () => {
+      const commentId = 1
+      const reviewId = 2
+      return request(app)
+      .delete(`/api/comments/${commentId}`)
+      .expect(204)
+      .then((response) => {
+        expect(response.body).toEqual({})
+      })
+      .then(() => {
+        return request(app)
+        .get(`/api/reviews/${reviewId}/comments`)
+        .expect(200)
+      })
+      .then((response) => {
+        expect(response.body.comments).toHaveLength(2);
+      });  
+    });
+  });
 });
