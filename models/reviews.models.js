@@ -154,19 +154,26 @@ function fetchReviewsComments(id) {
 function insertReviewComment(username, body, id) {
   console.log("into the model!");
   console.log(username, body, id);
-  const queryStr = `
+  const queryStr1 = `
+  SELECT *
+  FROM reviews
+  WHERE review_id = $1;`;
+  return db.query(queryStr1, [id])
+  .then((response) => {
+    console.log(response.rows);
+    if (response.rows.length === 0) {
+      return Promise.reject({status: 404, msg: "Review not found" });
+    }
+    const queryStr2 = `
     INSERT INTO comments
       (body, author, review_id)
     VALUES
       ($1, $2, $3)
     RETURNING *;`;
-    console.log(queryStr);
-  return db.query(queryStr, [body, username, id])
+    console.log(queryStr2);
+    return db.query(queryStr2, [body, username, id])
+  })
   .then((response) => {
-    // if (response.rows.length === 0) {
-    //   return Promise.reject({status: 404, msg: "Review not found" });
-    // }
-    console.log(response.rows);
     return response.rows[0];
   })
 }

@@ -426,7 +426,7 @@ describe.only('POST /api/reviews/:review_id/comments', () => {
     test('status:201 response.body.comment is a valid comment object with keys: comment_id, body, votes, author, review_id, created_at', () => {
       const requestBody = {
         username: 'philippaclaire9',
-        body: 'blah blah blah blah blah blah yes yes ok ok IT IS 318054 yep :)'
+        body: 'blah blah blah blah. Here is some content!'
       };
       const reviewId = 1
       return request(app)
@@ -436,7 +436,7 @@ describe.only('POST /api/reviews/:review_id/comments', () => {
         .then((response) => {
           expect(response.body.comment).toMatchObject({
             comment_id: 7,
-            body: 'blah blah blah blah blah blah yes yes ok ok IT IS 318054 yep :)',
+            body: 'blah blah blah blah. Here is some content!',
             votes: 0,
             author: 'philippaclaire9',
             review_id: 1,
@@ -446,23 +446,33 @@ describe.only('POST /api/reviews/:review_id/comments', () => {
     });
   });
   describe('Sad paths', () => {
-    // test('status:400 with body { msg: "Invalid query" } when review_id in path is not a number (as it should be)', () => {
-    //   const reviewId = "not a number oops";
-    //   return request(app)
-    //     .get(`/api/reviews/${reviewId}/comments`)
-    //     .expect(400)
-    //     .then((response) => {
-    //       expect(response.body).toEqual({ msg: "Invalid query" });
-    //     });
-    // });
-    // test('status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table', () => {
-    //   const reviewId = 999;
-    //   return request(app)
-    //     .get(`/api/reviews/${reviewId}/comments`)
-    //     .expect(404)
-    //     .then((response) => {
-    //       expect(response.body).toEqual({ msg: "Review not found" });
-    //     });
-    // });
+    test('status:400 with body { msg: "Invalid query" } when review_id in path is not a number (as it should be)', () => {
+      const reviewId = "not a number oops";
+      const requestBody = {
+        username: 'philippaclaire9',
+        body: 'blah blah blah blah. Here is some content!'
+      };
+      return request(app)
+        .post(`/api/reviews/${reviewId}/comments`)
+        .send(requestBody)
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Invalid query" });
+        });
+    });
+    test.only('status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table', () => {
+      const reviewId = 999;
+      const requestBody = {
+        username: 'philippaclaire9',
+        body: 'blah blah blah blah. Here is some content!'
+      };
+      return request(app)
+        .post(`/api/reviews/${reviewId}/comments`)
+        .send(requestBody)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Review not found" });
+        });
+    });
   })
 });

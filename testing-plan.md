@@ -136,13 +136,15 @@ tested and implemented:
 happy path:
 - status:201 response.body.comment is a valid comment object with keys: comment_id, body, votes, author, review_id, created_at
 
-
-to test and implement:
-
 sad paths:
 - status:400 with body { msg: "Invalid query" } when review_id in path is not a number (as it should be)
 
 - status:404 with body { msg: "Review not found" } when review_id in path is correctly a number, but the number is not found as a review_id in the reviews table
+
+to test and implement:
+
+
+sad paths:
 
 - status:400 with body { msg: "Invalid request body" } requestbody contains more keys than just username and body
 
