@@ -179,3 +179,16 @@ sad paths:
 - comment_id not found status:404 with body { msg: "Comment not found" } when comment_id in path is correctly a number, but the number is not found as a comment_id in the comment table
 
 
+#### **GET /api**
+
+Responds with:
+
+- JSON describing all the available endpoints on your API
+
+---
+
+to test and implement:
+
+happy path:
+responds with status:200 and JSON describing all the available endpoints on the API
+

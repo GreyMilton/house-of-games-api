@@ -9,7 +9,35 @@ const usersRouter = require('./users-routes.js');
 
 
 apiRouter.get('/', (req, res, next) => {
-  res.status(200).send({ msg: "Hello, this is your API router, all good here!"});
+  res.status(200).send({
+    msg: "Hello, this is your API router, all good here!",
+    endpoints: [
+      { endpoint: '/api/categories',
+        methods: ['GET'],
+        description: ''
+      },
+      { endpoint: '/api/reviews/:review_id',
+        methods: ['GET', 'PATCH'],
+        description: ''
+      },
+      { endpoint: '/api/reviews',
+        methods: ['GET'],
+        description: ''
+      },
+      { endpoint: '/api/reviews/:review_id/comments',
+        methods: ['GET', 'POST'],
+        description: ''
+      },
+      { endpoint: '/api/comments/:comment_id',
+        methods: ['DELETE'],
+        description: ''
+      },
+      { endpoint: '/api',
+        methods: ['GET'],
+        description: ''
+      }
+    ]
+  });
 })
 
 

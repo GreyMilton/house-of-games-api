@@ -540,8 +540,8 @@ describe('POST /api/reviews/:review_id/comments', () => {
   })
 });
 
-describe.only('DELETE /api/comments/:comment_id', () => {
-  describe('happy path', () => {
+describe('DELETE /api/comments/:comment_id', () => {
+  describe('Happy path', () => {
     test('status:204, no content returned, while chosen comment has certainly been removed from database', () => {
       const commentId = 1
       const reviewId = 2
@@ -559,7 +559,9 @@ describe.only('DELETE /api/comments/:comment_id', () => {
       .then((response) => {
         expect(response.body.comments).toHaveLength(2);
       });  
-    });
+    }); 
+  });
+  describe('Sad paths', () => {
     test('comment_id not a number, where it should be. status:400 with body { msg: "Invalid query" }', () => {
       const commentId = "not a number oops";
       return request(app)
@@ -577,6 +579,26 @@ describe.only('DELETE /api/comments/:comment_id', () => {
         .then((response) => {
           expect(response.body).toEqual({ msg: "Comment not found" });
         });
+    });
+  });
+});
+
+describe.only('GET /api', () => {
+  describe('Happy path', () => {
+    test('responds with status:200 and JSON describing all the available endpoints on the API', () => {
+      return request(app)
+      .get('/api')
+      .expect(200)
+      .then((response) => {
+        expect(response.body.endpoints).toHaveLength(6);
+        response.body.endpoints.forEach((endpoint) => {
+          expect(endpoint).toMatchObject({
+            endpoint: expect.any(String),
+            methods: expect.any(Array),
+            description: expect.any(String)
+          });
+        });
+      });
     });
   });
 });
