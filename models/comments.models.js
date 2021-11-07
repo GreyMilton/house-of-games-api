@@ -7,17 +7,14 @@ function modelDeleteComment (id) {
   const queryStr = `
   DELETE FROM comments
   WHERE comment_id = $1
-  ;`;
-
-  const fakeQueryStr = `
-  DELETE FROM comments
-  WHERE comment_id = $1
   RETURNING *
   ;`;
-
-  return db.query(fakeQueryStr, [id])
+  return db.query(queryStr, [id])
   .then((response) => {
     console.log(response.rows);
+    if (response.rows.length === 0) {
+      return Promise.reject({status: 404, msg: "Comment not found" });
+    }
     return response.rows[0];
   })
 }

@@ -560,5 +560,23 @@ describe.only('DELETE /api/comments/:comment_id', () => {
         expect(response.body.comments).toHaveLength(2);
       });  
     });
+    test('comment_id not a number, where it should be. status:400 with body { msg: "Invalid query" }', () => {
+      const commentId = "not a number oops";
+      return request(app)
+        .delete(`/api/comments/${commentId}`)
+        .expect(400)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Invalid query" });
+        });
+    });
+    test('comment_id not found status:404 with body { msg: "Comment not found" } when comment_id in path is correctly a number, but the number is not found as a comment_id in the comment table', () => {
+      const commentId = 999;
+      return request(app)
+        .delete(`/api/comments/${commentId}`)
+        .expect(404)
+        .then((response) => {
+          expect(response.body).toEqual({ msg: "Comment not found" });
+        });
+    });
   });
 });
