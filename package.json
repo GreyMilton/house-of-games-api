@@ -11,7 +11,9 @@
     "start": "node listen.js"
   },
   "jest": {
-    "setupFilesAfterEnv": ["jest-sorted"]
+    "setupFilesAfterEnv": [
+      "jest-sorted"
+    ]
   },
   "repository": {
     "type": "git",
@@ -72,6 +74,7 @@
     "concat-map": "^0.0.1",
     "convert-source-map": "^1.8.0",
     "cookiejar": "^2.1.3",
+    "cors": "^2.8.5",
     "cross-spawn": "^7.0.3",
     "cssom": "^0.4.4",
     "cssstyle": "^2.3.0",
