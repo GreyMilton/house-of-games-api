@@ -259,7 +259,20 @@ describe('GET /api/reviews', () => {
             expect(currentReviewVotes).toBeGreaterThanOrEqual(nextReviewVotes);
           }
         });
-      });
+    });
+    test('returns all reviews sorted by comment_count when queried, defaulting to descending: responds with status:200', () => {
+      return request(app)
+        .get('/api/reviews?sort_by=comment_count')
+        .expect(200)
+        .then((response) => {
+          expect(response.body.reviews).toHaveLength(13);
+          for (let i = 0; i < response.body.reviews.length - 1; i++) {
+            const currentCommentCount = response.body.reviews[i].comment_count;
+            const nextCommentCount = response.body.reviews[i + 1].comment_count;
+            expect(currentCommentCount).toBeGreaterThanOrEqual(nextCommentCount);
+          }
+        });
+    });
     test('returns all reviews sorted by another valid column WITHOUT number values when queried (e.g. a string), defaulting to descending responds with status:200', () => {
       return request(app)
         .get('/api/reviews?sort_by=designer')

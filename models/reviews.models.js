@@ -68,7 +68,7 @@ function fetchReviews(query) {
     return Promise.reject({ status:400, msg: "Invalid query" });
   }
   if (!['review_id', 'title', 'designer', 'owner', 'review_img_url', 'review_body', 'category', 'created_at',
-  'votes'].includes(sort_by)) {
+  'votes', 'comment_count'].includes(sort_by)) {
     return Promise.reject({ status:400, msg: "Invalid sort_by query" });
   }
   if (!['ASC', 'DESC', 'asc', 'desc'].includes(order)) {
@@ -104,7 +104,7 @@ console.log("categoryQuery:", categoryQuery);
         WHERE reviews.category = \'${category}\'`;
         const queryStrTail = `
         GROUP BY reviews.review_id
-        ORDER BY reviews.${sort_by} ${order};`;
+        ORDER BY ${sort_by} ${order};`;
         let queryStr;
         if (!category) {
           queryStr = queryStrTop + queryStrTail;
