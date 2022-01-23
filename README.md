@@ -4,7 +4,7 @@
 
 This is the git repository (repo) of a *portfolio project* by me, Grey Milton. It was created in early November 2021 while undertaking a Full-Stack JavaScript Bootcamp with [Northcoders](https://northcoders.com) (UK).
 
-The project is an API that mimicks a real world backend service (such as reddit). It was constructed in such a way that it could hypothetically be used to provide information for further front end architecture at a later date.
+*The project is an API* that mimicks a real world backend service (such as reddit). It was constructed in such a way that it could hypothetically be used to provide information for further front end architecture at a later date.
 
 It was in fact used in another project of mine three weeks later - a frontend web app.
 <br>
