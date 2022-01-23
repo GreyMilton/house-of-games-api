@@ -1,374 +1,209 @@
-# Northcoders House of Games API
+# Grey's House of Games API
 
-## Background
+## What is this repo?
 
-We will be building an API for the purpose of accessing application data programmatically. The intention here is to mimick the building of a real world backend service (such as reddit) which should provide this information to the front end architecture.
+This is the repo (repository) of a *portfolio project* by me, Grey Milton. It was created in November 2021 while undertaking a Full-Stack JavaScript Bootcamp with Northcoders.
 
-Your database will be PSQL, and you will interact with it using [node-postgres](https://node-postgres.com/).
+The project is an API that mimicks a real world backend service (such as reddit). It is constructed in such a way that it could hypothetically be used to provide information for further front end architecture at a later date.
+<br>
+<br>
 
-## Step 1 - Setting up your project
+>## Link to the hosted API:
 
-You will need to create _two_ `.env` files for your project: `.env.test` and `.env.development`. Into each, add `PGDATABASE=<database_name_here>`, with the correct database name for that environment (see `/db/setup.sql` for the database names). Double check that these `.env` files are .gitignored.
+I have hosted a version of the API on Heroku. You can [access it here]()
+<br>
+<br>
 
-You have also been provided with a `db` folder with some data, a [setup.sql](./db/setup.sql) file and  a `seeds` folder. You should also take a minute to familiarise yourself with the npm scripts you have been provided.
+## What does the API do?
 
-The job of `index.js` in each the data folders is to export out all the data from that folder, currently stored in separate files. This is so that, when you need access to the data elsewhere, you can write one convenient require statement - to the index file, rather than having to require each file individually. Think of it like a index of a book - a place to refer to! Make sure the index file exports an object with values of the data from that folder with the keys:
+The API interacts with and presents data relating to an online board games review site.  
 
-- `categoryData`
-- `reviewData`
-- `userData`
-- `commentData`
+It accesses four tables of data: `categories`, `users`, `reviews` and `comments`.
 
-## Step 2 - Creating tables and Seeding
+### *`Categories`*
 
-You will need to create your tables and write your seed function to insert the data into your database.
+The categories table lists different categories of board game.
 
-In order to both create the tables and seed your data, you will need the connection to your database. You can find this in the provided `connection.js`.
+### *`Users`*
 
-### Creating Tables
+The users table lists all users who have interacted with the (imaginary) website.
 
-You should have separate tables for `categories`, `reviews`, `users` and `comments`. Make sure to consider the order in which you create your tables. You should think about whether you require any constraints on your table columns (e.g. 'NOT NULL')
+### *`Reviews`*
 
-Each category should have:
+The reviews table lists all reviews that have been made by users regarding different board games.
 
-- `slug` field which is a unique string that acts as the table's primary key
-- `description` field which is a string giving a brief description of a given category
+### *`Comments`*
 
-Each user should have:
+The comments table lists all comments that have been made on the reviews from the site.
+<br>
+<br>
 
-- `username` which is the primary key & unique
-- `avatar_url`
-- `name`
+## How can I interact with the API?
 
-Each review should have:
+All interactions with the API are done with the http methods:
+* *`GET`* (for 'getting' data)
+* *`POST`* (for creating new data entries)
+* *`PUT/PATCH`* (for updating pre-existing entries)
+* *`DELETE`* (for removing data entries)
 
-- `review_id` which is the primary key
-- `title`
-- `review_body`
-- `designer`
-- `review_img_url` defaults to `https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg`
-- `votes` defaults to 0
-- `category` field which references the slug in the categories table
-- `owner` field that references a user's primary key (username)
-- `created_at` defaults to the current timestamp
+>The following endpoints are currently online and functional:
+>* (`GET`) **/api/categories**
+>* (`GET` or `PUT/PATCH`) **/api/reviews/:review_id**
+>* (`GET`) **/api/reviews**
+>* (`GET` or `POST`) **/api/reviews/:review_id/comments**
+>* (`DELETE`) **/api/comments/:comment_id**
+>* (`GET`) **/api**
 
-Each comment should have:
+These endpoints are yet to be implemented:
+* (`GET`) **/api/users**
+* (`GET`) **/api/users/:username**
+* (`PUT/PATCH`) **/api/comments/:comment_id**
 
-- `comment_id` which is the primary key
-- `author` field that references a user's primary key (username)
-- `review_id` field that references an review's primary key
-- `votes` defaults to 0
-- `created_at` defaults to the current timestamp
-- `body`
+To have a play with the API, go to [this link]().
 
-### Seeding
+If you're unsure where to start, try `/api` as your first endpoint to `GET`. You can do this by simply navigating to *insert link*/api with you browser. In simply doing just this, you will be `GET`-ing data from the endpoint.
 
-You need to complete the provided seed function to insert the appropriate data into your database.
+>The data that you will '`GET`' from navigating to `/api` will describe each further endpoint that can be accessed at the API, what methods they use, and how they work.
+<br>
+<br>
 
----
+------------------------------------------------------
+<br>
 
-## Step 3 - Building Endpoints
+# How can I use this repo?
 
-- Use proper project configuration from the offset, being sure to treat development and test environments differently.
-- Test each route **as you go**, checking both successful requests **and the variety of errors you could expect to encounter** [See the error-handling file here for ideas of errors that will need to be considered](error-handling.md).
-- After taking the happy path when testing a route, think about how a client could make it go wrong. Add a test for that situation, then error handling to deal with it gracefully.
+If you'd like to install and run this git repository on your own machine, rather than viewing it at the address you are at now, or by accessing the hosted version of the API at the [link above](), you will need to:
 
----
+1. Install Node.js and Postgres.
+2. Fork and clone this repo.
+3. Install npm dependencies.
+4. Create two simple `.env` files.
+5. Create local databases and seed.
+6. Run the provided tests.
 
-Work through building endpoints in the following order:
+>***Please note*** All the steps in this README assume you are using a relatively up-to-date `apple mac computer`. Additional steps may be required to get this repo running correctly on a windows or linux based operating system.
+<br>
+<br>
 
-_This is a summary of all the endpoints. More detail about each endpoint is further down this document._
+## 1. Install Node.js and Postgres
 
-**Essential endpoints**
+If you do not already have Node.js and Postgres installed on your machine, you will need to install them in order to run this repo correctly.
 
-```http
-GET /api/categories
-GET /api/reviews/:review_id
-PATCH /api/reviews/:review_id
-GET /api/reviews
-GET /api/reviews/:review_id/comments
-POST /api/reviews/:review_id/comments
-DELETE /api/comments/:comment_id
-GET /api
-```
+You can download Node.js at `insert link`.
 
-> Hosting and README time!
+You can download Postgres at `insert link`.
+<br>
+<br>
 
-**Next endpoints to work through**
+## 2. Fork and clone this repo
 
-```http
-GET /api/users
-GET /api/users/:username
-PATCH /api/comments/:comment_id
-```
+Provided you have a GitHub account (free), you can `fork` this repo (optional) by clicking the `fork` in the top right of your window at `insert github link`. This will copy all of the repo information into a new repo attached to your own GitHub account.
 
----
+To then `clone` (copy) this Forked version, or the original repo if you prefer, to your own machine, click on the big green button `Code` also towards the top right of your screen (but further down and in), and copy the link found there. (Or you could simply copy the url in the address bar).
 
-All of your endpoints should send the responses specified below in an **object**, with a **key name** of what it is that being sent. E.g.
+Type `git clone` into your terminal, and paste the copied url next to it. Then press enter:
+`````
+git clone "https://github.com/..."
+`````
 
-```json
-{
-  "categories": [
-    {
-      "description": "Abstact games that involve little luck",
-      "slug": "Euro games"
-    },
-    {
-      "description": "Players attempt to uncover each other's hidden role",
-      "slug": "Social deduction"
-    },
-    {
-      "description": "Games involving physical skill",
-      "slug": "Dexterity"
-    }
-  ]
-}
-```
+Now open the repo with your coding program of choice (VSCode is a good one).
+<br>
+<br>
 
----
+## 3. Install npm dependencies.
 
-### Essential Routes
+The following npm infrastructure will need to be installed for the repo to run correctly. Each is listed with the terminal command used to install them. Run each line of code in your terminal, making sure you are in the repo's root directory.
 
-#### **GET /api/categories**
+### *npm*
+`````
+npm init
+`````
 
-Responds with:
+### *express*
+`````
+npm install express
+`````
 
-- an array of category objects, each of which should have the following properties:
-  - `slug`
-  - `description`
+### *dotenv*
+`````
+npm install dotenv
+`````
 
----
+### *pg*
+`````
+npm install pg
+`````
 
-#### **GET /api/reviews/:review_id**
+### *pg-format*
+`````
+npm install pg-format
+`````
 
-Responds with:
+### *jest*
+`````
+npm install jest -D
+`````
 
-- a review object, which should have the following properties:
+### *supertest*
+`````
+npm install supertest -D
+`````
 
-  - `owner` which is the `username` from the users table
-  - `title`
-  - `review_id`
-  - `review_body`
-  - `designer`
-  - `review_img_url`
-  - `category`
-  - `created_at`
-  - `votes`
-  - `comment_count` which is the total count of all the comments with this review_id - you should make use of queries to the database in order to achieve this
+### *jest-sorted*
+`````
+npm install jest-sorted -D
+`````
 
----
+Jest-sorted also requires the following piece of code to be inserted into the package.json file at root level:
 
-#### **PATCH /api/reviews/:review_id**
+`````
+  "jest": {
+    "setupFilesAfterEnv": ["jest-sorted"]
+  }
+`````
+<br>
+<br>
 
-Request body accepts:
+## 4. Create two `.env` files
 
-- an object in the form `{ inc_votes: newVote }`
+In order for this repo to function correctly, two new files need to be created in the repo's root directory. They must have these exact names and contents:
 
-  - `newVote` will indicate how much the `votes` property in the database should be updated by
+### *.env.development*
+`````
+PGDATABASE=nc_games
+`````
 
-  e.g.
+### *.env.test*
+`````
+PGDATABASE=nc_games_test
+`````
+<br>
+<br>
 
-  `{ inc_votes : 1 }` would increment the current review's vote property by 1
+## 5. Create local databases and seed
 
-  `{ inc_votes : -100 }` would decrement the current review's vote property by 100
+You can now create the repo's two local databases. They are a *'development'* database, and a *'test'* database.
 
-Responds with:
+In order to create the two databases, run this code in your terminal:
+`````
+npm run setup-dbs
+`````
 
-- the updated review
+Next, you can fill the *'development'* database with data (tables and their contents). To do so, run this code in your terminal:
+`````
+npm run seed
+`````
 
----
+You won't need to fill the *'test'* database with data right now. This will be done automatically when you run your tests below.
+<br>
+<br>
 
-#### **GET /api/reviews**
+## 6. Run the provided tests.
 
-Responds with:
+Final step! You can test the code, and make sure the API will function as intended by running the provided tests. In order to do so, write this into your terminal and press enter:
 
-- an `reviews` array of review objects, each of which should have the following properties:
-  - `owner` which is the `username` from the users table
-  - `title`
-  - `review_id`
-  - `category`
-  - `review_img_url`
-  - `created_at`
-  - `votes`
-  - `comment_count` which is the total count of all the comments with this review_id - you should make use of queries to the database in order to achieve this
+`````
+npm test
+`````
 
-Should accept queries:
-
-- `sort_by`, which sorts the reviews by any valid column (defaults to date)
-- `order`, which can be set to `asc` or `desc` for ascending or descending (defaults to descending)
-- `category`, which filters the reviews by the category value specified in the query
-
----
-
-#### **GET /api/reviews/:review_id/comments**
-
-Responds with:
-
-- an array of comments for the given `review_id` of which each comment should have the following properties:
-  - `comment_id`
-  - `votes`
-  - `created_at`
-  - `author` which is the `username` from the users table
-  - `body`
-
----
-
-#### **POST /api/reviews/:review_id/comments**
-
-Request body accepts:
-
-- an object with the following properties:
-  - `username`
-  - `body`
-
-Responds with:
-
-- the posted comment
-
----
-
-#### **DELETE /api/comments/:comment_id**
-
-Should:
-
-- delete the given comment by `comment_id`
-
-Responds with:
-
-- status 204 and no content
-
----
-
-#### **GET /api**
-
-Responds with:
-
-- JSON describing all the available endpoints on your API
-
----
-
-### **STOP POINT: Hosting and README!**
-
-- If you _have_ already hosted your app at this point, remember to push up to `heroku` your updated code
-- If you haven't already hosted your app, now is the time! Follow the instructions in [hosting.md](./hosting.md)
-- Write your README, including the following information:
-  - [ ] Link to hosted version
-  - [ ] Write a summary of what the project is
-  - [ ] Provide clear instructions of how to clone, install dependencies, seed local database, and run tests
-  - [ ] Include information about how to create the two `.env` files
-  - [ ] Specify minimum versions of `Node.js` and `Postgres` needed to run the project
-
-**Remember that this README is targetted at people who will come to your repo (potentially from your CV or portfolio website) and want to see what you have created, and try it out for themselves(not _just_ to look at your code!). So it is really important to include a link to the hosted version, as well as implement the above `GET /api` endpoint so that it is clear what your api does.**
-
----
-
-### Further Routes
-
-#### **GET /api/users**
-
-Responds with:
-
-- an array of objects, each object should have the following property:
-  - `username`
-
----
-
-#### **GET /api/users/:username**
-
-Responds with:
-
-- a user object which should have the following properties:
-  - `username`
-  - `avatar_url`
-  - `name`
-
----
-
-#### **PATCH /api/comments/:comment_id**
-
-Request body accepts:
-
-- an object in the form `{ inc_votes: newVote }`
-
-  - `newVote` will indicate how much the `votes` property in the database should be updated by
-
-  e.g.
-
-  `{ inc_votes : 1 }` would increment the current comment's vote property by 1
-
-  `{ inc_votes : -1 }` would decrement the current comment's vote property by 1
-
-Responds with:
-
-- the updated comment
-
----
-
-### _Even more_ endpoints/tasks
-
-#### Adding pagination to GET /api/reviews
-
-> To make sure that an API can handle large amounts of data, it is often necessary to use **pagination**. Head over to [Google](https://www.google.co.uk/search?q=cute+puppies), and you will notice that the search results are broken down into pages. It would not be feasible to serve up _all_ the results of a search in one go. The same is true of websites / apps like Facebook or Twitter (except they hide this by making requests for the next page in the background, when we scroll to the bottom of the browser). We can implement this functionality on our `/api/reviews` and `/api/comments` endpoints.
-
-- Should accepts the following queries:
-  - `limit`, which limits the number of responses (defaults to 10)
-  - `p`, stands for page which specifies the page at which to start (calculated using limit)
-- add a `total_count` property, displaying the total number of reviews (**this should display the total number of reviews with any filters applied, discounting the limit**)
-
----
-
-#### Adding pagination to GET /api/reviews/:review_id/comments
-
-Should accept the following queries:
-
-- `limit`, which limits the number of responses (defaults to 10)
-- `p`, stands for page which specifies the page at which to start (calculated using limit)
-
----
-
-#### POST /api/reviews
-
-Request body accepts:
-
-- an object with the following properties:
-
-  - `owner` which is the `username` from the users table
-  - `title`
-  - `review_body`
-  - `designer`
-  - `category` which is a `category` from the categories table
-
-Responds with:
-
-- the newly added review, with all the above properties as well as:
-  - `review_id`
-  - `votes`
-  - `created_at`
-  - `comment_count`
-
-#### POST /api/categories
-
-Request body accepts:
-
-- an object in the form:
-
-```json
-{
-  "slug": "category name here",
-  "description": "description here"
-}
-```
-
-Responds with:
-
-- a category object containing the newly added category
-
-#### DELETE /api/reviews/:review_id
-
-Should:
-
-- delete the given review by review_id
-
-Respond with:
-
-- status 204 and no content
+You should now see a satisying list of tests with green ticks next to them. Hooray!
