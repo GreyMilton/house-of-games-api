@@ -1,8 +1,8 @@
 # Grey's House of Games API
 
-## What is this repo?
+## What is this?
 
-This is the repo (repository) of a *portfolio project* by me, Grey Milton. It was created in November 2021 while undertaking a Full-Stack JavaScript Bootcamp with Northcoders.
+This is the git repository (repo) of a *portfolio project* by me, Grey Milton. It was created in November 2021 while undertaking a Full-Stack JavaScript Bootcamp with Northcoders.
 
 The project is an API that mimicks a real world backend service (such as reddit). It is constructed in such a way that it could hypothetically be used to provide information for further front end architecture at a later date.
 <br>
@@ -10,7 +10,7 @@ The project is an API that mimicks a real world backend service (such as reddit)
 
 >## Link to the hosted API:
 
-I have hosted a version of the API on Heroku. You can [access it here]()
+I have hosted a version of the API on Heroku. You can [access it here](https://house-of-games-api.herokuapp.com)
 <br>
 <br>
 
@@ -59,9 +59,9 @@ These endpoints are yet to be implemented:
 * (`GET`) **/api/users/:username**
 * (`PUT/PATCH`) **/api/comments/:comment_id**
 
-To have a play with the API, go to [this link]().
+To have a play with the API, go to [this link](https://house-of-games-api.herokuapp.com).
 
-If you're unsure where to start, try `/api` as your first endpoint to `GET`. You can do this by simply navigating to *insert link*/api with you browser. In simply doing just this, you will be `GET`-ing data from the endpoint.
+If you're unsure where to start, try `/api` as your first endpoint to `GET`. You can do this by simply navigating to https://house-of-games-api.herokuapp.com/api with you browser. In doing just this, you will be `GET`-ing data from the endpoint.
 
 >The data that you will '`GET`' from navigating to `/api` will describe each further endpoint that can be accessed at the API, what methods they use, and how they work.
 <br>
@@ -72,10 +72,10 @@ If you're unsure where to start, try `/api` as your first endpoint to `GET`. You
 
 # How can I use this repo?
 
-If you'd like to install and run this git repository on your own machine, rather than viewing it at the address you are at now, or by accessing the hosted version of the API at the [link above](), you will need to:
+If you'd like to install and run this git repository on your own machine, rather than only viewing the repo on GitHub, or than by accessing the hosted version of the API at the [link above](https://house-of-games-api.herokuapp.com), you will need to:
 
-1. Install Node.js and Postgres.
-2. Fork and clone this repo.
+1. Install Node.js and Postgres on your computer.
+2. Fork and clone this repo to your computer.
 3. Install npm dependencies.
 4. Create two simple `.env` files.
 5. Create local databases and seed.
@@ -89,24 +89,24 @@ If you'd like to install and run this git repository on your own machine, rather
 
 If you do not already have Node.js and Postgres installed on your machine, you will need to install them in order to run this repo correctly.
 
-You can download Node.js at `insert link`.
+You can [download Node.js here](https://nodejs.org/en/download/).
 
-You can download Postgres at `insert link`.
+You can [download Postgres here](https://www.postgresql.org/download/).
 <br>
 <br>
 
 ## 2. Fork and clone this repo
 
-Provided you have a GitHub account (free), you can `fork` this repo (optional) by clicking the `fork` in the top right of your window at `insert github link`. This will copy all of the repo information into a new repo attached to your own GitHub account.
+Provided you have a GitHub account (free), you can `fork` this repo (optional) by clicking the `fork` button in the top right of your window [where you are now](https://github.com/GreyMilton/house-of-games-api). This will copy all of the repo information into a new repo attached to your own GitHub account.
 
-To then `clone` (copy) this Forked version, or the original repo if you prefer, to your own machine, click on the big green button `Code` also towards the top right of your screen (but further down and in), and copy the link found there. (Or you could simply copy the url in the address bar).
+To then `clone` this Forked version (copy to your own machine), click on the big green button `Code` also towards the top right of your screen (but further down and in), and copy the link found there. (Or you could simply copy the current url in the address bar).
 
-Type `git clone` into your terminal, and paste the copied url next to it. Then press enter:
+Type `git clone` into your computer's terminal, and paste the copied url next to it. Then press enter:
 `````
-git clone "https://github.com/..."
+git clone https://github.com/GreyMilton/house-of-games-api
 `````
 
-Now open the repo with your coding program of choice (VSCode is a good one).
+Now open the repo with your coding program of choice ([VSCode](https://code.visualstudio.com/) is a good one).
 <br>
 <br>
 
@@ -127,6 +127,11 @@ npm install express
 ### *dotenv*
 `````
 npm install dotenv
+`````
+
+### *cors*
+`````
+npm install cors
 `````
 
 ### *pg*
