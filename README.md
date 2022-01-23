@@ -2,9 +2,11 @@
 
 ## What is this?
 
-This is the git repository (repo) of a *portfolio project* by me, Grey Milton. It was created in November 2021 while undertaking a Full-Stack JavaScript Bootcamp with Northcoders.
+This is the git repository (repo) of a *portfolio project* by me, Grey Milton. It was created in early November 2021 while undertaking a Full-Stack JavaScript Bootcamp with [Northcoders](https://northcoders.com) (UK).
 
-The project is an API that mimicks a real world backend service (such as reddit). It is constructed in such a way that it could hypothetically be used to provide information for further front end architecture at a later date.
+The project is an API that mimicks a real world backend service (such as reddit). It was constructed in such a way that it could hypothetically be used to provide information for further front end architecture at a later date.
+
+It was in fact used in another project of mine three weeks later - a frontend web app.
 <br>
 <br>
 
@@ -13,6 +15,10 @@ The project is an API that mimicks a real world backend service (such as reddit)
 I have hosted a version of the API on Heroku. You can [access it here](https://house-of-games-api.herokuapp.com)
 <br>
 <br>
+
+## Links to the frontend web app that uses this API:
+
+As mentioned above, this API is used by a web app I created for a later project. You can find [the web app's repo on GitHub here](https://github.com/GreyMilton/house-of-games-frontend), and you can find the [live deployed web app here](https://house-of-games-frontend.netlify.app/).
 
 ## What does the API do?
 
@@ -81,7 +87,7 @@ If you'd like to install and run this git repository on your own machine, rather
 5. Create local databases and seed.
 6. Run the provided tests.
 
->***Please note*** All the steps in this README assume you are using a relatively up-to-date `apple mac computer`. Additional steps may be required to get this repo running correctly on a windows or linux based operating system.
+>***Please note*** All the steps in this README assume you are using a relatively up-to-date `apple mac computer`. Additional steps may be required to get this repo running correctly on a windows, linux, or other operating system.
 <br>
 <br>
 
@@ -112,12 +118,26 @@ Now open the repo with your coding program of choice ([VSCode](https://code.visu
 
 ## 3. Install npm dependencies.
 
-The following npm infrastructure will need to be installed for the repo to run correctly. Each is listed with the terminal command used to install them. Run each line of code in your terminal, making sure you are in the repo's root directory.
+The following npm infrastructure will need to be installed for the repo to run correctly. Each package is listed with the terminal command used to install it.
+
+You can either run each line of code in your terminal, or just two: `npm init` and `npm install`. Make sure you are in the repo's root directory when you run each command.
 
 ### *npm*
 `````
 npm init
 `````
+<br>
+
+>### install all dependencies
+>Run this command to install all dependencies listed below.
+>`````
+>npm install
+>`````
+> You can now move on to step 4.
+><br>
+><br>
+
+<br>
 
 ### *express*
 `````
